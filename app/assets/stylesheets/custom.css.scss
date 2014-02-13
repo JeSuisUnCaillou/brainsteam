@@ -64,8 +64,16 @@ p {
 
 
 /* header */
-
 #logo {
+  float: left;
+  height: 38px;
+  padding-right: 5px;
+  padding-top: 1px;
+  img {
+    height: inherit;
+  }
+}
+#text_logo {
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
