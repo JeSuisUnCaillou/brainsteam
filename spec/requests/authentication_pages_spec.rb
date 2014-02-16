@@ -128,17 +128,13 @@ describe "Authentication" do
 
     end    
     
-    #FIX ME ! Should test that an admin can"t delete himself via any hack
     describe "as admin user" do
       let(:admin) { FactoryGirl.create(:admin) }
       
-      before { sign_in admin }
+      before { sign_in admin, no_capybara: true }
      
       describe "when deleting self by submitting DELETE request to Users#destroy" do
         it "should not be able to do it" do
-          pending("Finish this test you lazy ass !")
-          #delete user_path(admin)
-          #assert_response(403)
           expect { delete user_path(admin) }.not_to change(User, :count).by(-1)
         end
       end

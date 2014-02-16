@@ -43,7 +43,6 @@ class UsersController < ApplicationController
   def destroy
     user = User.find(params[:id])
     if(current_user == user) && (current_user.admin?)
-      #render nothing: true, status: 403 ; return
       render :status => :forbidden, :text => "An admin can't delete himself"
     else
       user.destroy
