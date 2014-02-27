@@ -1,0 +1,13 @@
+<% provide(:title, 'New thread') %>
+
+<h1>New Thread</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(@threadhead) do |t| %>
+      <%= render 'form', t: t %>
+
+      <%= t.submit "Create thread", class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<% provide(:title, 'All threads') %>
+<h1>All threads</h1>
+
+<%= form_tag(threadheads_path, method: "get", class:"form-inline") do %>
+  <%= label_tag :order, "Creation time"%>
+  <%= select_tag :order,
+                 options_for_select([["descending", :desc], ["ascending", :asc]], params[:order]),
+                 class: "select-filter"%>
+
+  <% @thread_tags.each do |thread_tag| %>
+    <%= label_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.name, value: thread_tag.id %>
+    <% if params.has_key?(:thread_tag) && !params[:thread_tag].has_key?(thread_tag.id.to_s) %>
+      <%= check_box_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.id %>
+    <% else %> 
+      <%= check_box_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.id, checked: true %>
+    <% end %>
+  <% end %>
+  <%= submit_tag "Filter", class:"btn" %>
+
+
+<%= link_to 'New thread', new_threadhead_path, class: "btn btn-primary", id: "right-btn"%>
+
+<% end %>
+
+
+
+<%= will_paginate %>
+
+<table class="table table-striped table-hover">
+  <%= render @threadheads %>
+</table>
+
+<%= will_paginate %>

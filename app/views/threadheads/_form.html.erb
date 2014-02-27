@@ -1,0 +1,13 @@
+<%#= render 'shared/error_messages' %>
+<p>
+  <%= t.label :private, 'Is private ?' %>
+  <%= t.check_box :private %>
+</p>
+<p>
+
+  <% @thread_tags.each do |thread_tag| %>
+    <%= t.label :thread_tag_id, thread_tag.name, value: thread_tag.id %>
+    <%= t.radio_button :thread_tag_id, thread_tag.id, checked: true %>
+  <% end %>
+
+</p>

@@ -56,5 +56,8 @@ describe "Static pages" do
     expect(page).to have_title(full_title('Sign up'))
     click_link "Brainsteam"
     expect(page).to have_title(full_title(''))
+    click_link "Threads"
+    expect(page).to have_title(full_title('All threads'))
+    
   end
 end

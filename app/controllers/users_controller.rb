@@ -51,6 +51,14 @@ class UsersController < ApplicationController
     end
   end
 
+  
+  def admin?
+    unless user.nil?
+      return user.admin
+    end
+    return false
+  end
+
   private
 
     def user_params
@@ -58,28 +66,5 @@ class UsersController < ApplicationController
                                    :password_confirmation)
     end
 
-    # Before filters
-
-    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_url, notice: "Please sign in."
-      end
-    end
-
-    def signed_out_user
-      if signed_in?
-        redirect_to root_path, notice: "Already logged in."
-      end
-    end
-
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
-    def admin_user
-      redirect_to(root_url) unless current_user.admin?
-    end
 
 end

@@ -2,9 +2,9 @@ namespace :db do
   desc "Fill database with sample data"
   task populate: :environment do
     User.create!(name: "Example User",
-                 email: "example@railstutorial.org",
-                 password: "foobar",
-                 password_confirmation: "foobar",
+                 email: "igorlacroute@gmail.com",
+                 password: "99brainsteam!",
+                 password_confirmation: "99brainsteam!",
                  admin: true)
     99.times do |n|
       name  = Faker::Name.name
@@ -15,5 +15,8 @@ namespace :db do
                    password: password,
                    password_confirmation: password)
     end
+
+    ThreadTag.create!(name: "Real world")
+    ThreadTag.create!(name: "Crazy stuff")
   end
 end

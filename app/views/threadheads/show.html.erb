@@ -1,0 +1,19 @@
+<% provide(:title, 'View thread') %> <!-- a changer par le nom du thread-->
+<div class="row">
+  <aside class="span5">
+    <section>
+      <h1> <!-- a changer par le titre du thread-->
+         <%= @threadhead.id %>
+
+      </h1>
+      <div class= "thread_head_body" %>
+        <div class="thread_tags" >
+         <%= render @thread_tags %> 
+        </div>
+
+
+
+      </div>
+    </section>
+  </aside>
+</div>
