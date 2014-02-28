@@ -6,12 +6,13 @@ class ThreadheadsController < ApplicationController
   def index
     order =  params.has_key?(:order) ? params[:order].to_sym : :desc
     id_table = []
+    thread_tag_ids = ThreadTag.select(:id)
     if params.has_key?(:thread_tag) 
-      for i in 1..ThreadTag.count do
-        id_table.push(i) if params[:thread_tag].has_key?(i.to_s)
+      for i in thread_tag_ids do
+        id_table.push(i) if params[:thread_tag].has_key?(i.id.to_s)
       end
     else 
-      id_table = ThreadTag.select(:id)
+      id_table = thread_tag_ids
     end
  
     @threadheads = Threadhead.joins(:thread_tags) 

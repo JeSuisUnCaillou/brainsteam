@@ -22,24 +22,37 @@ describe "Threadhead Pages" do
     let(:first_threadhead) { Threadhead.first }
 
     describe "filters" do
-      describe "filter button test" do
+      describe "ascending filter" do
         before do
-           find_by_id('order').find("option[value='asc']").click
-           #select 'asc', from: 'order'
+           select 'ascending', from: 'Creation time'
            click_button('Filter')
         end
         it { should_not have_selector("tr.threadhead", text: first_threadhead.id) } # a remplacer par le nom du thread
-        it { should have_selector("tr.threadhead") }#, text: Threadhead.last.id) }
-        #A MARCHE PAS
+        it { should have_selector("tr.threadhead", text: Threadhead.last.id) }
       end
       
-      
+      describe "tag filters" do        
+        before do
+          uncheck ThreadTag.first.name
+          click_button 'Filter'
+        end        
+        it { should_not have_selector("tr.threadhead") }
+        
+        describe "all tags unchecked" do
+          before do
+            uncheck ThreadTag.last.name
+            click_button 'Filter'
+          end
+          it { should have_selector('tr.threadhead') }
+        end
+      end
     end
  
     describe "first line attributes" do
       it { should have_selector('tr.threadhead/td.thread_tags/div', 
                                 text: first_threadhead.thread_tags.first.name) }
       it { should have_link('view thread', href: threadhead_path(first_threadhead)) }
+      it { should have_selector('tr.threadhead', text: first_threadhead.id) }
     end
 
     describe "pagination" do

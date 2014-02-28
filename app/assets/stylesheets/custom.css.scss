@@ -44,10 +44,6 @@ textarea {
   }
 }
 
-form {
-  margin: 0px 0px 10px 0px;
-}
-
 
 $grayMediumLight: #eaeaea;
 
@@ -173,6 +169,10 @@ aside {
 
 /* forms */
 
+form {
+  margin: 0px 0px 10px 0px;
+}
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
@@ -190,7 +190,7 @@ input {
    list-style: none;
     margin: 0 0 18px 0;
   }
- }
+}
 
 .field_with_errors {
   @extend .control-group;
