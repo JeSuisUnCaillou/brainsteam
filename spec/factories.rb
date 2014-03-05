@@ -34,4 +34,15 @@ FactoryGirl.define do
     thread_tag
   end
   
+  factory :message do
+    sequence(:title) { |n| "Titre n°" + n.to_s }
+    sequence(:text) { |n| "Message n°" + n.to_s  }
+    user
+  end
+
+  factory :treenode do
+    association :obj, factory: :threadhead
+    parent_node nil
+  end
+
 end

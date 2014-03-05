@@ -2,7 +2,12 @@ require 'spec_helper'
 
 describe User do
 
-  before { @user = User.new(name: "Example User", email: "user@example.com", password: "foobar", password_confirmation: "foobar") }
+  before do
+    @user = User.new(name: "Example User",
+                     email: "user@example.com",
+                     password: "foobar",
+                     password_confirmation: "foobar")
+  end
 
   subject { @user }
 
@@ -14,9 +19,20 @@ describe User do
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:admin) }
+  it { should respond_to(:messages) }
 
   it { should be_valid }
   it { should_not be_admin }
+
+  describe "user-message association" do
+    before do
+      @user.save
+    end
+    let!(:m_1) { FactoryGirl.create(:message, user: @user, title: "1") }
+    let!(:m_2) { FactoryGirl.create(:message, user: @user, title: "2") }
+    let!(:m_3) { FactoryGirl.create(:message, user: @user, title: "3") }
+    its(:messages) { should eq [m_1, m_2, m_3] } 
+  end
 
   describe "with admin attribute set to 'true'" do
     before do

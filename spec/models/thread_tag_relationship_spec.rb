@@ -22,10 +22,19 @@ describe ThreadTagRelationship do
     it { should_not be_valid }
   end
 
+  describe "when thread_tag_id doesn't exist" do
+    before { thread_tag_relationship.thread_tag_id = -1 }
+    it { should_not be_valid }
+  end
 
   describe "when threadhead_id is not present" do
     before { thread_tag_relationship.threadhead_id = nil }
     it { should_not be_valid }
   end
-  
+ 
+  describe "when threadhead_id is doesn't exist" do
+    before { thread_tag_relationship.threadhead_id = -1 }
+    it { should_not be_valid }
+  end
+ 
 end

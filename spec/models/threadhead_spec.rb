@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Threadhead do
 
   before { @threadhead = Threadhead.new(private: false) }
-           #@threadhead.save }
 
   subject { @threadhead }
 
@@ -12,7 +11,7 @@ describe Threadhead do
   it { should respond_to(:thread_tags) }
   it { should respond_to(:link_tag!) }
   it { should respond_to(:unlink_tag!) }
-
+  it { should respond_to(:treenode) }
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -40,6 +39,13 @@ describe Threadhead do
       its(:thread_tags) { should_not include(thread_tag) }  
     end
 
+  end
+
+  
+  describe "treenode association" do
+    before { @threadhead.save }
+    let!(:thread_node) { FactoryGirl.create(:treenode, obj: @threadhead) } 
+    its(:treenode) { should eq thread_node }
   end
 
 end

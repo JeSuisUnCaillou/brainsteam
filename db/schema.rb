@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140219114135) do
+ActiveRecord::Schema.define(version: 20140228145729) do
+
+  create_table "messages", force: true do |t|
+    t.string   "title"
+    t.text     "text"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "thread_tag_relationships", force: true do |t|
     t.integer  "threadhead_id"
@@ -28,6 +36,14 @@ ActiveRecord::Schema.define(version: 20140219114135) do
 
   create_table "threadheads", force: true do |t|
     t.boolean  "private",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "treenodes", force: true do |t|
+    t.integer  "obj_id"
+    t.string   "obj_type"
+    t.integer  "parent_node_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
