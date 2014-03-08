@@ -13,6 +13,10 @@ describe Threadhead do
   it { should respond_to(:unlink_tag!) }
   it { should respond_to(:treenode) }
   it { should respond_to(:first_message) }
+  it { should respond_to(:user) }
+  it { should respond_to(:title) }
+  it { should respond_to(:text) }
+
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -55,4 +59,21 @@ describe Threadhead do
     end
   end
 
+  describe "create_with_friends method" do
+     let!(:thread_tag) { FactoryGirl.create(:thread_tag) }
+     let!(:user) { FactoryGirl.create(:user) }
+     before do
+       @threadhead = Threadhead.create_with_friends(false,
+                                                   { title: 'title', text: 'text'},
+                                                   thread_tag.id,
+                                                   user)
+     end
+     subject { @threadhead }
+     it { should be_valid }    
+     its(:first_message) { should_not eq nil }
+     its(:thread_tags) { should_not eq nil }
+     its(:user) { should eq user }
+     its(:title) { should eq 'title' }
+     its(:text) { should eq 'text' }
+  end
 end

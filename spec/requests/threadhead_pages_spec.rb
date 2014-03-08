@@ -56,6 +56,7 @@ describe "Threadhead Pages" do
                                 text: first_threadhead.thread_tags.first.name) }
       it { should have_link('view thread', href: threadhead_path(first_threadhead)) }
       it { should have_selector('tr.threadhead', text: first_threadhead.first_message.title) }
+      it { should have_selector('tr.threadhead', text: first_threadhead.user.name) }
     end
 
     describe "pagination" do
@@ -114,23 +115,19 @@ describe "Threadhead Pages" do
   end
   
   describe "thread show page" do
-
-    let(:threadhead) { FactoryGirl.create(:threadhead) }
     let!(:thread_tag) { ThreadTag.first }
-    let!(:thread_tag_relationship) { FactoryGirl.create(:thread_tag_relationship, 
-                                                        threadhead: threadhead, 
-                                                        thread_tag: thread_tag) }
-    let!(:t_treenode) { FactoryGirl.create(:treenode, obj: threadhead) }
-    let!(:message) { FactoryGirl.create(:message) }
-    let!(:m_treenode) { FactoryGirl.create(:treenode, obj: message, parent_node: t_treenode) }
-
+    let!(:user) { FactoryGirl.create(:user) }
+    let!(:threadhead) { Threadhead.create_with_friends false,
+                                                       {title: 'title', text: 'text'},
+                                                       thread_tag.id,
+                                                       user }
     before { visit threadhead_path(threadhead) }
  
     it { should have_title(threadhead.first_message.title) }
     it { should have_content(thread_tag.name) } # a changer quand on aura plus de tags
     it { should have_content(threadhead.first_message.title) }
     it { should have_content(threadhead.first_message.text) }
-     
+    it { should have_content(threadhead.user.name) } 
   end
 
   describe "new thread page" do    

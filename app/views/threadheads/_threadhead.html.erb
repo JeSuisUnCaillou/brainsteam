@@ -3,17 +3,20 @@
     <td class="thread_tags">
       <%= render threadhead.thread_tags%>
     </td>
+
     <td class="threadhead_title">
       <%= threadhead.first_message.nil? ? '[ERROR] This is the end of the world !' : threadhead.first_message.title %>
     </td>
+
+    <td class="thread_user">
+      <%= threadhead.user.name %>
+    </td>
+
     <td class="links">
       <%= link_to "view thread", threadhead_path(threadhead)%>
-
       <% if signed_in? && current_user.admin? %>
         | <%= link_to "delete", threadhead, method: :delete, data: {confirm: "You sure ?" } %>
       <% end %>
-
-
     </td>
 
 </tr>

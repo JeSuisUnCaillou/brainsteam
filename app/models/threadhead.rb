@@ -17,5 +17,33 @@ class Threadhead < ActiveRecord::Base
   def first_message
     treenode.nil? ? nil : treenode.children_nodes.first.obj
   end
-  
+
+  def user
+    first_message.nil? ? nil : first_message.user
+  end
+
+  def title 
+    first_message.nil? ? nil : first_message.title
+  end
+
+  def text
+    first_message.nil? ? nil : first_message.text
+  end
+
+  def self.create_with_friends(privat, message, thread_tag_id, user)
+    @threadhead = Threadhead.new(private: privat)
+    @message = Message.new(text: message[:text],
+                           title: message[:title],
+                           user: user)
+    if @message.save && @threadhead.save
+      #@threadhead.save
+      @thread_node = Treenode.create(obj: @threadhead)
+      @message_node = Treenode.create(obj: @message, parent_node: @thread_node)
+      @threadhead.link_tag!(thread_tag_id) # a changer dès qu'on aura plus de tags
+      return @threadhead
+    else
+      return nil
+    end   
+  end
+ 
 end
