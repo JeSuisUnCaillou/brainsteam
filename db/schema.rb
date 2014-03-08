@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140228145729) do
+ActiveRecord::Schema.define(version: 20140306103201) do
 
   create_table "messages", force: true do |t|
     t.string   "title"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20140228145729) do
     t.datetime "updated_at"
   end
 
+  add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
   create_table "thread_tag_relationships", force: true do |t|
     t.integer  "threadhead_id"
     t.integer  "thread_tag_id"
@@ -28,11 +30,16 @@ ActiveRecord::Schema.define(version: 20140228145729) do
     t.datetime "updated_at"
   end
 
+  add_index "thread_tag_relationships", ["thread_tag_id"], name: "index_thread_tag_relationships_on_thread_tag_id"
+  add_index "thread_tag_relationships", ["threadhead_id"], name: "index_thread_tag_relationships_on_threadhead_id"
+
   create_table "thread_tags", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "thread_tags", ["name"], name: "index_thread_tags_on_name", unique: true
 
   create_table "threadheads", force: true do |t|
     t.boolean  "private",    default: false
@@ -48,6 +55,9 @@ ActiveRecord::Schema.define(version: 20140228145729) do
     t.datetime "updated_at"
   end
 
+  add_index "treenodes", ["obj_id", "obj_type"], name: "index_treenodes_on_obj_id_and_obj_type", unique: true
+  add_index "treenodes", ["parent_node_id"], name: "index_treenodes_on_parent_node_id"
+
   create_table "users", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -59,6 +69,7 @@ ActiveRecord::Schema.define(version: 20140228145729) do
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["name"], name: "index_users_on_name", unique: true
   add_index "users", ["remember_token"], name: "index_users_on_remember_token"
 
 end

@@ -13,5 +13,9 @@ class Threadhead < ActiveRecord::Base
   def unlink_tag!(tag_id)
     thread_tag_relationships.find_by(thread_tag_id: tag_id).destroy
   end
+
+  def first_message
+    treenode.nil? ? nil : treenode.children_nodes.first.obj
+  end
   
 end

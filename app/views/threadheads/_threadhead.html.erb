@@ -4,7 +4,7 @@
       <%= render threadhead.thread_tags%>
     </td>
     <td class="threadhead_title">
-      Id: <%= threadhead.id %>
+      <%= threadhead.first_message.nil? ? '[ERROR] This is the end of the world !' : threadhead.first_message.title %>
     </td>
     <td class="links">
       <%= link_to "view thread", threadhead_path(threadhead)%>

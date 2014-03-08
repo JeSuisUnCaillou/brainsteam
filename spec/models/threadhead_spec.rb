@@ -12,6 +12,7 @@ describe Threadhead do
   it { should respond_to(:link_tag!) }
   it { should respond_to(:unlink_tag!) }
   it { should respond_to(:treenode) }
+  it { should respond_to(:first_message) }
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -46,6 +47,12 @@ describe Threadhead do
     before { @threadhead.save }
     let!(:thread_node) { FactoryGirl.create(:treenode, obj: @threadhead) } 
     its(:treenode) { should eq thread_node }
+
+    describe "first_message 'association'" do
+      let!(:message) { FactoryGirl.create(:message) }
+      let!(:m_treenode) { FactoryGirl.create(:treenode, obj: message, parent_node: @threadhead.treenode) }
+      its(:first_message) { should eq message }
+    end
   end
 
 end

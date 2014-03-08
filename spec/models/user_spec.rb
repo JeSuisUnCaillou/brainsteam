@@ -79,6 +79,16 @@ describe User do
     end
   end
 
+  describe "when name is aldready taken" do
+    before do
+      user_with_same_name = @user.dup
+      user_with_same_name.email = "aaaa@bbb.com"
+      user_with_same_name.save
+    end
+
+    it { should_not be_valid }
+  end
+
   describe "when email address is already taken" do
     before do
       user_with_same_email = @user.dup

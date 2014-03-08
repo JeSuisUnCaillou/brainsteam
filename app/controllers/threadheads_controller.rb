@@ -34,10 +34,23 @@ class ThreadheadsController < ApplicationController
   end
 
   def create
-    @threadhead = Threadhead.new(threadhead_params.slice(:private)) 
-    if @threadhead.save
+    @threadhead = Threadhead.new(threadhead_params.slice(:private))
+    @message = Message.new(text: threadhead_params[:message][:text],
+                           title: threadhead_params[:message][:title],
+                           user: current_user)
+    if (@message.save)
+      @threadhead.save
+      @thread_node = Treenode.new(obj: @threadhead)
+      @thread_node.save
+      @message_node = Treenode.new(obj: @message, parent_node: @thread_node)
+      @message_node.save
+      
       @threadhead.link_tag!(threadhead_params[:thread_tag_id])
       redirect_to threadhead_path(@threadhead)
+    else
+      flash[:error] = "Title and content of your message can't be blank"
+      redirect_to new_threadhead_path
+      #render 'new'
     end    
   end 
 
@@ -51,7 +64,9 @@ class ThreadheadsController < ApplicationController
   private
 
     def threadhead_params # a modifier après la v0.0
-      params.require(:threadhead).permit(:private, :thread_tag_id)
+      params.require(:threadhead).permit(:private, 
+                                         :thread_tag_id, 
+                                         message: [:title, :text])
     end
     
 end

@@ -10,9 +10,12 @@ describe "Threadhead Pages" do
 
   describe "index" do
     
-    before(:all) { 32.times { FactoryGirl.create(:threadhead_with_tag) } }
+    before(:all) { 32.times { FactoryGirl.create(:threadhead_and_friends) } }
     after(:all) { Threadhead.delete_all
-                  ThreadTagRelationship.delete_all }
+                  ThreadTagRelationship.delete_all
+                  Treenode.delete_all
+                  Message.delete_all
+                  User.delete_all }
       
     before { visit threadheads_path }
 
@@ -27,8 +30,8 @@ describe "Threadhead Pages" do
            select 'ascending', from: 'Creation time'
            click_button('Filter')
         end
-        it { should_not have_selector("tr.threadhead", text: first_threadhead.id) } # a remplacer par le nom du thread
-        it { should have_selector("tr.threadhead", text: Threadhead.last.id) }
+        it { should_not have_selector("tr.threadhead", text: first_threadhead.first_message.title) }
+        it { should have_selector("tr.threadhead", text: Threadhead.last.first_message.title) }
       end
       
       describe "tag filters" do        
@@ -52,7 +55,7 @@ describe "Threadhead Pages" do
       it { should have_selector('tr.threadhead/td.thread_tags/div', 
                                 text: first_threadhead.thread_tags.first.name) }
       it { should have_link('view thread', href: threadhead_path(first_threadhead)) }
-      it { should have_selector('tr.threadhead', text: first_threadhead.id) }
+      it { should have_selector('tr.threadhead', text: first_threadhead.first_message.title) }
     end
 
     describe "pagination" do
@@ -60,7 +63,7 @@ describe "Threadhead Pages" do
 
       it "should list each thread" do
         Threadhead.paginate(page: 1).each do |threadhead|
-          expect(page).to have_selector("tr.threadhead", text: threadhead.id) # a remplacer par le nom du thread
+          expect(page).to have_selector("tr.threadhead", text: threadhead.first_message.title)
         end
       end
     end
@@ -111,17 +114,23 @@ describe "Threadhead Pages" do
   end
   
   describe "thread show page" do
+
     let(:threadhead) { FactoryGirl.create(:threadhead) }
-    let!(:thread_tag) { FactoryGirl.create(:thread_tag) }
+    let!(:thread_tag) { ThreadTag.first }
     let!(:thread_tag_relationship) { FactoryGirl.create(:thread_tag_relationship, 
                                                         threadhead: threadhead, 
                                                         thread_tag: thread_tag) }
-    before { visit threadhead_path(threadhead) }
+    let!(:t_treenode) { FactoryGirl.create(:treenode, obj: threadhead) }
+    let!(:message) { FactoryGirl.create(:message) }
+    let!(:m_treenode) { FactoryGirl.create(:treenode, obj: message, parent_node: t_treenode) }
 
-    it { should have_title('View thread') } # a changer par le nom du thread
-    it { should have_content(threadhead.id) } # a changer aussi
+    before { visit threadhead_path(threadhead) }
+ 
+    it { should have_title(threadhead.first_message.title) }
     it { should have_content(thread_tag.name) } # a changer quand on aura plus de tags
-    
+    it { should have_content(threadhead.first_message.title) }
+    it { should have_content(threadhead.first_message.text) }
+     
   end
 
   describe "new thread page" do    
@@ -135,20 +144,49 @@ describe "Threadhead Pages" do
       
       it { should have_title('New thread') }
       it { should have_content('New Thread') }
-      it { should have_content('Real world') } # a changer quand on aura d'autres catégories
-      it { should have_content('Crazy stuff') }
+      it { should have_content(ThreadTag.first.name) } # a changer quand on aura d'autres catégories
+      it { should have_content(ThreadTag.last.name) }
 
-      it "should be able to create a new thread" do
-        expect { click_button('Create thread') }.to change(Threadhead, :count).by(1)
+      describe "creating a new thread with empty fields" do 
+        it "should not create a new thread" do
+          expect { click_button('Create thread') }.not_to change(Threadhead, :count)
+        end
+        
       end
-      it "should create a new thread_tag_relationship with the new thread" do
-        expect { click_button('Create thread') }.to change(ThreadTagRelationship, :count).by(1)
+
+      describe "creating a new thread" do
+        before do
+           fill_in :threadhead_message_title, with: 'my title'
+           fill_in :threadhead_message_text, with: 'my idea'
+        end
+        
+        it "should be able to create a new thread" do
+          expect { click_button('Create thread') }.to change(Threadhead, :count).by(1)
+        end
+      
+        it "should create a new thread_tag_relationship with the new thread" do
+          expect { click_button('Create thread') }.to change(ThreadTagRelationship, :count).by(1)
+        end
+
+        it "should create a new message with the new thread" do
+          expect { click_button('Create thread') }.to change(Message, :count).by(1)
+        end
+
+        it "should create 2 nodes with the new thread" do
+          expect { click_button('Create thread') }.to change(Treenode, :count).by(2)
+        end
+        
+        describe "show page should be filled" do
+           before { click_button 'Create thread' }
+           it { should have_content('my title') }
+        end
+        
       end
     end
 
     describe "as a visitor" do
       before { get new_threadhead_path }
-      specify { expect(response.body).not_to match(full_title('New Thread')) }
+      specify { expect(response.body).not_to match(full_title('New thread')) }
       specify { response.should redirect_to(signin_path) }
     end
   end

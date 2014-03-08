@@ -15,8 +15,15 @@ FactoryGirl.define do
   factory :threadhead do
     sequence(:private) { |n| false } 
     
-    factory :threadhead_with_tag do 
-      after(:create) { |threadhead| threadhead.link_tag!(ThreadTag.first.id) }
+    factory :threadhead_and_friends do 
+      after(:create) do |threadhead|
+         threadhead.link_tag!(ThreadTag.first.id)
+         user = User.first
+         user ||= FactoryGirl.create(:user)
+         m = FactoryGirl.create(:message, user: user, title: threadhead.id)
+         tn = FactoryGirl.create(:treenode, obj: threadhead)
+         tn_m = FactoryGirl.create(:treenode, obj: m, parent_node: tn)
+       end
     end
 
     factory :private_threadhead do

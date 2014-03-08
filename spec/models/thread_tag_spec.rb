@@ -11,4 +11,18 @@ describe ThreadTag do
   it { should respond_to(:threadheads) }
 
   it { should be_valid }
+
+  describe "when name is not present" do
+    before { @threadtag.name = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when name is already taken" do
+    before do
+      tt = @threadtag.dup
+      tt.save
+    end
+    it { should_not be_valid }
+  end
+
 end

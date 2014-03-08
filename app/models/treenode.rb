@@ -4,8 +4,8 @@ class Treenode < ActiveRecord::Base
 
   belongs_to :obj, polymorphic: true
 
-  validates :obj_id, presence: true
-  validates :obj_type, presence: true
+  validates :obj, presence: true
+  validates :obj_id, uniqueness: { scope: :obj_type }
   validate :obj_exists
   validate :parent_node_exists
 

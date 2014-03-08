@@ -1,13 +1,22 @@
-<%#= render 'shared/error_messages' %>
-<p>
-  <%= t.label :private, 'Is private ?' %>
-  <%= t.check_box :private %>
-</p>
-<p>
+<%= render 'shared/error_messages', object: t.object %>
 
-  <% @thread_tags.each do |thread_tag| %>
-    <%= t.label :thread_tag_id, thread_tag.name, value: thread_tag.id %>
-    <%= t.radio_button :thread_tag_id, thread_tag.id, checked: true %>
-  <% end %>
+<table>
+  <tr>
+    <td><%= t.label :private, 'Is private ?' %></td>
+    <td><%= t.check_box :private %></td>
 
+    <% @thread_tags.each do |thread_tag| %>
+      <td><%= t.label :thread_tag_id, thread_tag.name, value: thread_tag.id %></td>
+      <td><%= t.radio_button :thread_tag_id, thread_tag.id, checked: true %></td>
+    <% end %>
+  </tr>
+</table>
+
+<p>
+  <%= t.fields_for :message do |m| %>
+    <%= m.label :title, "Title" %>
+    <%= m.text_field :title, placeholder: "Title of your idea..." %> 
+    <%= m.label :text, "Content", class: 'sr-only'%>
+    <%= m.text_area :text, rows: "10", placeholder: "Details of your idea..." %>
+  <% end %> 
 </p>
