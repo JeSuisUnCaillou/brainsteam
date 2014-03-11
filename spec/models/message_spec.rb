@@ -13,6 +13,7 @@ describe Message do
   it { should respond_to(:user_id) }
   it { should respond_to(:treenode) }
   it { should respond_to(:user) }
+  it { should respond_to(:answers_count) } #write right spec
   its(:user) { should eq user }
 
   it { should be_valid }

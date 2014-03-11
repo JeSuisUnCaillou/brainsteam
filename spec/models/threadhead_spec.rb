@@ -16,7 +16,7 @@ describe Threadhead do
   it { should respond_to(:user) }
   it { should respond_to(:title) }
   it { should respond_to(:text) }
-
+  it { should respond_to(:answers_count) } #write right spec
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0

@@ -54,7 +54,7 @@ describe "Threadhead Pages" do
     describe "first line attributes" do
       it { should have_selector('tr.threadhead/td.thread_tags/div', 
                                 text: first_threadhead.thread_tags.first.name) }
-      it { should have_link('view thread', href: threadhead_path(first_threadhead)) }
+      it { should have_link(first_threadhead.title, href: threadhead_path(first_threadhead)) }
       it { should have_selector('tr.threadhead', text: first_threadhead.first_message.title) }
       it { should have_selector('tr.threadhead', text: first_threadhead.user.name) }
     end
@@ -75,7 +75,7 @@ describe "Threadhead Pages" do
         it { should_not have_link('delete') }
         
         describe "submitting a DELETE request to the Threadhead#destroy action" do
-          before { delete threadhead_path(Threadhead.first) }
+          before { delete threadhead_path(first_threadhead) }
           specify { response.should redirect_to(signin_path) }
         end
       end
@@ -89,7 +89,7 @@ describe "Threadhead Pages" do
         it { should_not have_link('delete') }
 
         describe "submitting a DELETE request to the Threadhead#destroy action" do
-          before { delete threadhead_path(Threadhead.first) }
+          before { delete threadhead_path(first_threadhead) }
           specify { response.should redirect_to(signin_path) }
         end
       end
@@ -105,9 +105,16 @@ describe "Threadhead Pages" do
         it { should have_link('delete') }
 
         it "should be able to delete a thread" do
-          expect do
-             click_link('delete', match: :first)
-          end.to change(Threadhead, :count).by(-1)
+          expect { click_link('delete', match: :first) }.to change(Threadhead, :count).by(-1)
+        end
+
+        let(:n) { first_threadhead.treenode.nodes_count }
+        it "deleting a thread should actually delete all its treenodes" do
+          expect { click_link('delete', match: :first) }.to change(Treenode, :count).by(-n)
+        end
+
+        it "deleting a thread should delete its first message" do
+          expect { click_link('delete', match: :first) }.to change(Message, :count).by(-1)
         end
 
       end

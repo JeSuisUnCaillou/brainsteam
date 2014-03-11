@@ -16,7 +16,7 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 
                 <%= gravatar_for current_user, size: 18 %>
-                Account
+                <%= truncate(current_user.name, length: 20) %>
                 <b class="caret"></b>
               </a>
 

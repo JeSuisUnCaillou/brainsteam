@@ -48,7 +48,9 @@ class ThreadheadsController < ApplicationController
 
   def destroy
     threadhead = Threadhead.find(params[:id])
-    threadhead.destroy
+    treenode = Treenode.find(threadhead.treenode)
+    #threadhead.destroy est fait par treenode.destroy, qui détruit aussi ses fils
+    treenode.destroy
     flash[:success] = "Thread destroyed."
     redirect_to threadheads_path
   end 

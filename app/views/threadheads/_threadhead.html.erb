@@ -4,19 +4,18 @@
       <%= render threadhead.thread_tags%>
     </td>
 
-    <td class="threadhead_title">
-      <%= threadhead.first_message.nil? ? '[ERROR] This is the end of the world !' : threadhead.first_message.title %>
+    <td class="thread_title">
+      <%= link_to threadhead.first_message.nil? ? '[ERROR] This is the end of the world !' : truncate(threadhead.first_message.title, length: 80), threadhead_path(threadhead) %>
     </td>
 
-    <td class="thread_user">
-      <%= threadhead.user.name %>
+    <td class="thread_author">
+      <%= link_to truncate(threadhead.user.name, length: 20), user_path(threadhead.user) %>
+      <%= gravatar_for threadhead.user, size: 18 %>
     </td>
 
-    <td class="links">
-      <%= link_to "view thread", threadhead_path(threadhead)%>
-      <% if signed_in? && current_user.admin? %>
-        | <%= link_to "delete", threadhead, method: :delete, data: {confirm: "You sure ?" } %>
-      <% end %>
-    </td>
-
+    <% if signed_in? && current_user.admin? %>
+      <td class="admin_links">
+        <%= link_to "delete", threadhead, method: :delete, data: {confirm: "You sure ?" } %>
+      </td>
+    <% end %>
 </tr>

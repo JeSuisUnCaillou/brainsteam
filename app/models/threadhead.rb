@@ -30,6 +30,10 @@ class Threadhead < ActiveRecord::Base
     first_message.nil? ? nil : first_message.text
   end
 
+  def answers_count
+    -2 + treenode.nodes_count # a changer par ~ -2 + Path.count(threadhead_id: id)
+  end
+
   def self.create_with_friends(privat, message, thread_tag_id, user)
     @threadhead = Threadhead.new(private: privat)
     @message = Message.new(text: message[:text],

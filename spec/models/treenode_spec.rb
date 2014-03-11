@@ -17,6 +17,7 @@ describe Treenode do
   it { should respond_to(:parent_node) }
   it { should respond_to(:children_nodes) }
   it { should respond_to(:obj) }
+  it { should respond_to(:nodes_count) }
   its(:parent_node) { should eq parent_node }
 
   it { should be_valid }
@@ -65,7 +66,7 @@ describe Treenode do
     end
   end
 
-  describe "parent-children nodes associations" do
+  describe "parent-children and node-object associations" do
     before { @treenode.save }
     let!(:m_1) { FactoryGirl.create(:message) }
     let!(:m_2) { FactoryGirl.create(:message) }
@@ -73,17 +74,38 @@ describe Treenode do
     let!(:n_1) { FactoryGirl.create(:treenode, obj: m_1, parent_node: @treenode) } 
     let!(:n_2) { FactoryGirl.create(:treenode, obj: m_2, parent_node: @treenode) }
     let!(:n_3) { FactoryGirl.create(:treenode, obj: m_3, parent_node: @treenode) }
-   
+    let!(:m_11) { FactoryGirl.create(:treenode, parent_node: n_1) }
+     
     its(:children_nodes) { should eq [n_1, n_2, n_3] } 
+
+    its(:nodes_count) { should eq 5 }
+
+    describe "destroy the node" do
+      before { @treenode.destroy }
+     
+      it "should destroy it's object" do
+        expect(Message.where(id: message.id)).to eq []
+      end 
+     
+      it "should destroy it's children" do
+        expect(Treenode.where(id: [n_1, n_2, n_3])).to eq []
+      end
+
+      it "should destroy it's children's objects" do
+        expect(Message.where(id: [m_1, m_2, m_3])).to eq []
+      end
+
+      it "should destroy it's children's chidren" do
+        expect(Treenode.where(id: m_11)).to eq []
+      end
+    end
     
     describe "when parent_id is not present" do
       before { @treenode.parent_node_id = nil }
 
       describe "and obj_type = 'Threadhead'" do
         let!(:th) { FactoryGirl.create(:threadhead) }
-        before do
-          @treenode.obj = th
-        end
+        before { @treenode.obj = th }
         it { should be_valid }
       end
 
@@ -91,6 +113,7 @@ describe Treenode do
          before { @treenode.obj = message }
          it { should_not be_valid }
       end
+
     end
 
   end

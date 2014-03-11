@@ -7,6 +7,11 @@ class Message < ActiveRecord::Base
   validates :title, presence: true
   validates :text, presence: true
 
+
+  def answers_count
+    -1 + treenode.nodes_count # a changer par ~ -1 + Path.count(threadhead_id: id)
+  end
+
   private
     def user_id_exists
       errors.add(:user_id, "is invalid") unless User.exists?(self.user_id)

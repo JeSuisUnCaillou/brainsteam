@@ -1,13 +1,18 @@
 class Treenode < ActiveRecord::Base
   belongs_to :parent_node, class_name: "Treenode", foreign_key: :parent_node_id
-  has_many :children_nodes, class_name: "Treenode", foreign_key: :parent_node_id  
+  has_many :children_nodes, class_name: "Treenode", foreign_key: :parent_node_id,
+                                                    dependent: :destroy 
 
-  belongs_to :obj, polymorphic: true
+  belongs_to :obj, polymorphic: true, dependent: :destroy
 
   validates :obj, presence: true
   validates :obj_id, uniqueness: { scope: :obj_type }
   validate :obj_exists
   validate :parent_node_exists
+
+  def nodes_count
+    1 + children_nodes.map{ |n| n.nodes_count }.sum
+  end
 
   private
     def obj_exists

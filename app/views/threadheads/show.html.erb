@@ -1,19 +1,57 @@
 <% provide(:title, @threadhead.first_message.title) %>
-<div class="row">
-  <aside class="span5">
-    <section>
-      <h1>
-         <%= @threadhead.first_message.title %>
-      </h1>
-      <div class= "thread_head_body" %>
-        <div class="thread_tags" >
-         <%= render @thread_tags %> 
+
+<div class= "thread_body" >
+  
+  <div class="thread_tags" >
+    <%= render @thread_tags %> 
+  </div>
+
+  <div class="message">
+   
+    <div class= "message_headbar">
+
+      <div class="message_author">
+
+        <div class="author_avatar center">
+          <%= gravatar_for @threadhead.first_message.user, size: 30 %>
         </div>
-        <div class="thread_content">
-          <%= @threadhead.user.name %>
-          <%= @threadhead.first_message.text %>
+
+        <div class="author_name center">
+          <%= link_to truncate(@threadhead.first_message.user.name, length:20),
+                      user_path(@threadhead.first_message.user) %>
+
         </div>
+
+     </div>
+
+      <div class="message_titles">
+
+         <div class="message_subtitles">
+           <small>
+             <div class="creation_time">
+               <%= time_ago_in_words @threadhead.first_message.created_at %> ago...
+             </div>
+             <div class="message_count"><!--a changer par message.answers_count-->
+               <%= @threadhead.first_message.answers_count  %>
+             </div>
+           </small>
+         </div>
+
+         <div class="message_title">
+           <h4> <%= @threadhead.first_message.title %> </h4>
+         </div>
+
       </div>
-    </section>
-  </aside>
+
+    </div>
+
+    <hr />
+
+    <div class="message_text">
+      <p><%= @threadhead.first_message.text %></p>
+    </div>
+
+  </div>
+
 </div>
+
