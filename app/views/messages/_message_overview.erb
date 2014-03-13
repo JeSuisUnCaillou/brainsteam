@@ -4,7 +4,7 @@
     <%= gravatar_for message_overview.user, size: 20 %>
   </td>
   <td class="message_title">
-    <%= message_overview.title %>
+    <%=link_to truncate(message_overview.title, length: 50), '#' %>
   </td>
 
 </tr>

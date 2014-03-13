@@ -12,7 +12,6 @@
   .message_form { 
     .btn {
       float: left;
-      //font-size: px;
       margin-right: 5px;
       margin-bottom: 5px;
     }
@@ -89,7 +88,16 @@
 //MESSAGE OVERVIEW
 
 .message_answers {
-  width: 620px;
+  width: 620px;  
+  
+  table {
+    margin: 0px;
+  }
+
+  .table_scroll {
+    height:152px;
+    overflow-y: auto; 
+  } 
 
  .author_avatar {
    width: 30px;

@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
   end
 
   def answers_count
-    -1 + treenode.nodes_count # a changer par ~ -1 + Path.count(threadhead_id: id)
+    -1 + treenode.nodes_count # a changer pour plus opti ?
   end
 
   def self.create_with_friends(title, text, user, parent_node_id) # rajouter la création de paths

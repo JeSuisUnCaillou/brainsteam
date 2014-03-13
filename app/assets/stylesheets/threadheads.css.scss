@@ -13,15 +13,27 @@
 }
 
 .thread_tags {
-  //width: 100px;
+  width: 75px;
 }
 
-.thread_author .gravatar {
-  float: left;
-  margin-right: 10px;
+.thread_author { 
+  width: 180px;
+
+  .gravatar {
+    float: left;
+    margin-right: 10px;
+  }
 }
 .admin_links {
   //width: 100px;
 }
 
+.filter_menu_part {
+  float: left;
+  margin-right: 7px;
+  vertical-align: middle;
 
+  .thread_tag {
+    margin-top: 5px;
+  }
+}

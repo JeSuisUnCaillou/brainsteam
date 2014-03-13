@@ -16,6 +16,6 @@ Message.toggle_form = (message_id) ->
     toggle_button.style.display = 'inline-block'
 
 $ ->
-  $("a[data-message-id]").click ->
-    message_id =$(this).data("message-id")
+  $("button[data-message-id]").click ->
+    message_id = $(this).data("message-id")
     Message.toggle_form(message_id)
