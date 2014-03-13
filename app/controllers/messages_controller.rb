@@ -1,0 +1,30 @@
+class MessagesController < ApplicationController
+
+   before_action :signed_in_user, only: [:create, :destroy]
+   before_action :admin_user, only: [:destroy]
+
+  def create
+    @message = Message.create_with_friends(message_params[:title],
+                                           message_params[:text],
+                                           current_user,
+                                           message_params[:parent_node_id])
+    unless @message.nil?
+      flash[:success] = "Answer sent"
+      redirect_to threadhead_path(message_params[:threadhead_id])
+    else
+      flash[:error] = "Title and content of your message can't be blank"
+      redirect_to threadhead_path(message_params[:threadhead_id])
+    end
+
+    #créer le path avec
+  end
+
+  def destroy
+  end
+
+  private
+
+    def message_params
+      params.require(:message).permit(:title, :text, :user, :threadhead_id, :parent_node_id)
+    end
+end

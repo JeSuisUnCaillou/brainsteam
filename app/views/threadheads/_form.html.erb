@@ -14,9 +14,6 @@
 
 <p>
   <%= t.fields_for :message do |m| %>
-    <%= m.label :title, "Title" %>
-    <%= m.text_field :title, placeholder: "Title of your idea..." %> 
-    <%= m.label :text, "Content", class: 'sr-only'%>
-    <%= m.text_area :text, rows: "10", placeholder: "Details of your idea..." %>
+    <%=render partial: 'messages/form', locals: { m: m } %>
   <% end %> 
 </p>

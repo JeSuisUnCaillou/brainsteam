@@ -26,6 +26,7 @@ class ThreadheadsController < ApplicationController
   def show
     @threadhead = Threadhead.find(params[:id])
     @thread_tags = @threadhead.thread_tags
+    @new_message = Message.new
   end
 
   def new

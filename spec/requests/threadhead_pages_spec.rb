@@ -134,7 +134,48 @@ describe "Threadhead Pages" do
     it { should have_content(thread_tag.name) } # a changer quand on aura plus de tags
     it { should have_content(threadhead.first_message.title) }
     it { should have_content(threadhead.first_message.text) }
-    it { should have_content(threadhead.user.name) } 
+    it { should have_content(threadhead.user.name) }
+
+    describe "adding an answer" do
+
+      describe "as a visitor" do
+        # POST REQUEST à faire
+      end
+
+      describe "as a logged_in user" do
+        let!(:reader) { FactoryGirl.create(:user) }
+        before do
+          sign_in reader
+          visit threadhead_path(threadhead)
+        end
+
+        describe "with valid informations" do
+  
+          before do
+            fill_in :message_title, with: 'mon titre'
+            fill_in :message_text, with: 'mon texte'
+          end
+
+          it "should create a message" do
+            expect { click_button('Send') }.to change(Message, :count).by(1)
+          end
+
+          it "should create a treenode with the message" do
+            expect { click_button('Send') }.to change(Treenode, :count).by(1)
+          end
+
+        end
+
+        describe "with invalid informations" do
+          it "shouldn't create a message" do
+            expect { click_button('Send') }.not_to change(Message, :count)
+          end
+        end
+    
+      end
+
+    end
+
   end
 
   describe "new thread page" do    

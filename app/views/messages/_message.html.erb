@@ -1,0 +1,79 @@
+
+<div class="message">
+   
+  <div class= "message_headbar">
+
+    <div class="message_author">
+
+      <div class="author_avatar center">
+        <%= gravatar_for message.user, size: 30 %>
+      </div>
+
+      <div class="author_name center">
+        <%= link_to truncate(message.user.name, length:20),
+                    user_path(message.user) %>
+      </div>
+
+   </div>
+
+    <div class="message_titles">
+
+       <div class="message_subtitles">
+         <small>
+           <div class="creation_time">
+             <%= time_ago_in_words message.created_at %> ago...
+           </div>
+           <div class="message_count"><!--a changer par message.answers_count-->
+             <%= message.answers_count  %>
+           </div>
+         </small>
+       </div>
+
+       <div class="message_title">
+         <h4> <%= message.title %> </h4>
+       </div>
+
+    </div>
+
+  </div>
+
+  <hr />
+
+  <div class="message_text">
+    <p><%= simple_format message.text %></p>
+  </div>
+
+
+
+  <div class="message_footer">
+
+    <%= link_to "Answer it", "#", class:"btn", id: "toggle_#{message.id}", 
+                remote: true, data: { message_id: message.id.to_s } %> 
+
+    <div class="message_form" id="message_form_<%= message.id.to_s %>" 
+                              style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
+
+      <%#= button_to_function "Hide", "Message.toggle_form(#{message.id})",
+                                          class: "btn" %>
+      <%= link_to "Hide", "#", class:"btn",
+                          remote: true, data: { message_id: message.id.to_s } %>
+
+      <%= form_for(@new_message, url: messages_path) do |m| %>
+        <%= m.submit "Send", class: "btn btn-primary" %>
+        <%= render partial: 'messages/form', locals: { m: m } %>
+        <%= m.hidden_field :parent_node_id, value: message.treenode.id %>
+        <%= m.hidden_field :threadhead_id, value: @threadhead.id %>
+      <% end %>    
+    </div>
+
+  </div>
+
+</div>
+
+<table class="message_answers table table-striped table-hover table-bordered">
+
+  <%= render partial: 'messages/message_overview',
+                       collection: message.children_messages %>
+  <%#= render message.treenode.children_nodes.map{ |n| n.obj  } %>
+
+</table>

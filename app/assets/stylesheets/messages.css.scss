@@ -1,0 +1,106 @@
+
+// MESSAGES
+
+.message {
+  background-color: #eeeeee;
+  padding: 10px;
+  -webkit-border-radius: 6px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  width: 600px;  
+
+  .message_form { 
+    .btn {
+      float: left;
+      //font-size: px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+    }
+    .new_message {
+      margin: 0px;
+    }
+    #message_title {
+      margin-bottom: 5px;
+    }
+    #message_text {
+      margin: 0px;
+    }
+  }
+ 
+  #message_title {
+    //float: right;
+    //margin-left: 130px;
+    //size: auto;
+  }
+
+  hr {
+    margin: 8px;
+  }
+}
+
+.message_headbar {
+  //height: 50px;
+}
+
+.message_text {
+  padding-left: 10px;
+  padding-right: 10px;
+ 
+}
+
+.message_titles {
+  padding-left: 10px;
+  padding-right: 10px;
+
+  .message_title h4 {
+    margin: 0px;
+  }
+  
+  .message_subtitles {
+    height: 20px;
+  }
+
+  .creation_time {
+    float: left;
+  }
+
+  .message_count {
+     float: right;
+  }
+}
+
+.message_footer {
+  height: auto;
+}
+
+.message_author {
+  #width: 70px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  height: 50px;
+  float: left;
+
+  .author_avatar {
+     
+  }
+}
+
+//MESSAGE OVERVIEW
+
+.message_answers {
+  width: 620px;
+
+ .author_avatar {
+   width: 30px;
+ }
+}
+
+
+
+
+
+
+
+
+

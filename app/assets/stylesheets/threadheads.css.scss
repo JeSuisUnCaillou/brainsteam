@@ -13,75 +13,15 @@
 }
 
 .thread_tags {
-  width: 100px;
+  //width: 100px;
 }
 
 .thread_author .gravatar {
   float: left;
   margin-right: 10px;
 }
-
-
-// MESSAGES
-
-.message {
-  background-color: #eeeeee;
-  padding: 10px;
-  -webkit-border-radius: 6px;
-  margin-bottom: 10px;
-  width: 600px;
-  
-  hr {
-    margin: 8px;
-  }
-}
-
-.message_headbar {
-  //height: 50px;
-}
-
-.message_text {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.message_titles {
-  padding-left: 10px;
-  padding-right: 10px;
-
-  .message_title h4 {
-    margin: 0px;
-  }
-  
-  .message_subtitles {
-    height: 20px;
-  }
-
-  .creation_time {
-    float: left;
-  }
-
-  .message_count {
-     float: right;
-  }
-}
-
-
-.message_author {
-  #width: 70px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  height: 50px;
-  float: left;
-
-  .author_avatar {
-     
-  }
-}
-
-
-
 .admin_links {
-  width: 100px;
+  //width: 100px;
 }
+
+
