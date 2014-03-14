@@ -17,6 +17,8 @@ describe Treenode do
   it { should respond_to(:parent_node) }
   it { should respond_to(:children_nodes) }
   it { should respond_to(:obj) }
+  it { should respond_to(:paths) }
+  it { should respond_to(:paths_count) }
   it { should respond_to(:nodes_count) }
   its(:parent_node) { should eq parent_node }
 
@@ -114,6 +116,20 @@ describe Treenode do
          it { should_not be_valid }
       end
 
+    end
+
+    describe "paths association" do
+
+      let!(:reader_1) { FactoryGirl.create(:user) }
+      let!(:reader_2) { FactoryGirl.create(:user) }
+      let!(:path_1) { FactoryGirl.create(:path, user: reader_1,
+                                              threadhead: threadhead,
+                                              treenode: @treenode) }
+      let!(:path_2) { FactoryGirl.create(:path, user: reader_2,
+                                              threadhead: threadhead,
+                                              treenode: @treenode) }
+      its(:paths) { should eq [path_1, path_2] }
+      its(:paths_count) { should eq 2 }
     end
 
   end

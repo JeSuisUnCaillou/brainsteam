@@ -5,6 +5,8 @@ class Treenode < ActiveRecord::Base
 
   belongs_to :obj, polymorphic: true, dependent: :destroy
 
+  has_many :paths
+
   validates :obj, presence: true
   validates :obj_id, uniqueness: { scope: :obj_type }
   validate :obj_exists
@@ -12,6 +14,10 @@ class Treenode < ActiveRecord::Base
 
   def nodes_count
     1 + children_nodes.map{ |n| n.nodes_count }.sum
+  end
+
+  def paths_count
+    paths.count
   end
 
   private

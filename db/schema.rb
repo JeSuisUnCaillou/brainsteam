@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140306103201) do
+ActiveRecord::Schema.define(version: 20140314135349) do
 
   create_table "messages", force: true do |t|
     t.string   "title"
@@ -22,6 +22,14 @@ ActiveRecord::Schema.define(version: 20140306103201) do
   end
 
   add_index "messages", ["user_id"], name: "index_messages_on_user_id"
+
+  create_table "paths", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "threadhead_id"
+    t.integer  "treenode_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "thread_tag_relationships", force: true do |t|
     t.integer  "threadhead_id"

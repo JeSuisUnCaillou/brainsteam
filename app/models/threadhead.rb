@@ -5,6 +5,7 @@ class Threadhead < ActiveRecord::Base
   has_many :thread_tag_relationships, dependent: :destroy
   has_many :thread_tags, through: :thread_tag_relationships
   has_one :treenode, as: :obj
+  has_many :paths
 
   def link_tag!(tag_id)
     thread_tag_relationships.create!(thread_tag_id: tag_id)
@@ -28,6 +29,10 @@ class Threadhead < ActiveRecord::Base
 
   def text
     first_message.nil? ? nil : first_message.text
+  end
+
+  def paths_by_user(user_id)
+    paths.where(user_id: user_id)
   end
 
   def answers_count

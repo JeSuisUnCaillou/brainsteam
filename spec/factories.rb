@@ -52,4 +52,10 @@ FactoryGirl.define do
     parent_node nil
   end
 
+  factory :path do
+    user
+    threadhead
+    treenode
+  end
+
 end
