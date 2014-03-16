@@ -130,6 +130,14 @@ describe Treenode do
                                               treenode: @treenode) }
       its(:paths) { should eq [path_1, path_2] }
       its(:paths_count) { should eq 2 }
+
+      describe "destroy the treenode" do
+        before { @treenode.destroy }
+        it "should destroy the associated paths" do
+          expect(Path.where(id: [path_1, path_2] )).to eq []
+        end
+      end
+
     end
 
   end

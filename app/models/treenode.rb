@@ -5,7 +5,7 @@ class Treenode < ActiveRecord::Base
 
   belongs_to :obj, polymorphic: true, dependent: :destroy
 
-  has_many :paths
+  has_many :paths, dependent: :destroy
 
   validates :obj, presence: true
   validates :obj_id, uniqueness: { scope: :obj_type }

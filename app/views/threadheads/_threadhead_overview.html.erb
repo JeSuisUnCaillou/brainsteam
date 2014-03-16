@@ -1,0 +1,23 @@
+
+<tr class="threadhead">
+
+    <td class="thread_tags">
+      <%= render threadhead_overview.thread_tags%>
+    </td>
+
+    <td class="thread_title">
+      <%= threadhead_overview.answers_count%>
+      <%= link_to threadhead_overview.first_message.nil? ? '[ERROR] This is the end of the world !' : truncate(threadhead_overview.first_message.title, length: 80), threadhead_path(threadhead_overview) %>
+    </td>
+
+    <td class="thread_author">
+      <%= link_to truncate(threadhead_overview.user.name, length: 20), user_path(threadhead_overview.user) %>
+      <%= gravatar_for threadhead_overview.user, size: 18 %>
+    </td>
+
+    <% if signed_in? && current_user.admin? %>
+      <td class="admin_links">
+        <%= link_to "delete", threadhead_overview, method: :delete, data: {confirm: "You sure ?" } %>
+      </td>
+    <% end %>
+</tr>

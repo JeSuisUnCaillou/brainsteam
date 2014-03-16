@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   has_many :messages
+  has_many :paths, dependent: :destroy # pas sur que ça serve
+ 
 
   before_save { email.downcase! } # Pareil que self.email = email.downcase
   before_create :create_remember_token

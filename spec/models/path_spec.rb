@@ -5,7 +5,7 @@ describe Path do
   let!(:thread_tag) { FactoryGirl.create(:thread_tag) }
   let!(:threadhead) { FactoryGirl.create(:threadhead_and_friends) }
   
-  before { @path = Path.create(user: user,
+  before { @path = Path.new(user: user,
                                threadhead: threadhead,
                                treenode: threadhead.treenode) }
 
@@ -51,5 +51,14 @@ describe Path do
     it { should_not be_valid }
   end
 
+  describe "when a path with this treenode and user already exists" do
+    before do
+      p = FactoryGirl.create(:path, user: @path.user,
+                                    treenode: @path.treenode,
+                                    threadhead: @path.threadhead)
+    end
+
+    it { should_not be_valid }
+  end
 
 end

@@ -1,11 +1,16 @@
 <% provide(:title, @threadhead.first_message.title) %>
 
 <div class= "thread_body" >
-  
-  <div class="thread_tags" >
-    <%= render @thread_tags %> 
-  </div>
+ 
+  <% if signed_in? %>
+ 
+    <%= render @treenodes %>
 
-  <%= render @threadhead.first_message %>
+  <% else %>
+    
+    <%= render @threadhead %>
+    <%= render @threadhead.first_message %>
+
+  <% end %>
 
 </div>

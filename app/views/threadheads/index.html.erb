@@ -54,7 +54,8 @@
     </tr>
   </thead>
   <tbody>
-    <%= render @threadheads %>
+    <%= render partial: 'threadheads/threadhead_overview',
+                         collection:  @threadheads %>
   </tbody>
 </table>
 

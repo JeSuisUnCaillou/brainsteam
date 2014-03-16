@@ -25,6 +25,6 @@ class MessagesController < ApplicationController
   private
 
     def message_params
-      params.require(:message).permit(:title, :text, :user, :threadhead_id, :parent_node_id)
+      params.require(:message).permit(:title, :text, :threadhead_id, :parent_node_id)
     end
 end

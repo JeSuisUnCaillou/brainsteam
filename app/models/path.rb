@@ -6,6 +6,7 @@ class Path < ActiveRecord::Base
   validates :user_id, presence: true
   validates :threadhead_id, presence: true
   validates :treenode_id, presence: true
+  validates :treenode_id, uniqueness: { scope: :user_id }
 
   validate :user_id_exists
   validate :threadhead_id_exists

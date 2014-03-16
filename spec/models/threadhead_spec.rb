@@ -85,6 +85,7 @@ describe Threadhead do
      
     describe "paths association" do
       let!(:reader) { FactoryGirl.create(:user) }
+      let!(:no_reader) { FactoryGirl.create(:user) }
       let!(:path_1) { FactoryGirl.create(:path, user: reader,
                                              threadhead: @threadhead,
                                              treenode: @threadhead.treenode) }
@@ -96,16 +97,33 @@ describe Threadhead do
                                              threadhead: @threadhead,
                                              treenode: @threadhead.first_message.treenode) }
     
-      its(:paths) { should eq [path_1, path_2, path_3] }
+      its(:paths) { should eq [path_2, path_3, path_1] }
       
       describe "paths_by_user method" do
+
         it "with a reader" do
           @threadhead.paths_by_user(reader.id).should eq [path_1]
         end
+
         it "with the author" do
           @threadhead.paths_by_user(user.id).should eq [path_2, path_3]
-        end 
-      
+        end
+
+        it "with a not-yet-a-reader" do
+          @threadhead.paths_by_user(no_reader.id).should eq []
+        end
+
+        it "with a nil user" do
+          @threadhead.paths_by_user(nil).should eq []
+        end
+  
+      end
+
+      describe "destroy a threadhead" do
+        before { @threadhead.destroy }
+        it "should destroy the associated paths" do
+           expect(Path.where(id: [path_1, path_2, path_3])).to eq []
+        end
       end
 
     end
