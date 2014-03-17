@@ -124,17 +124,49 @@ describe "Threadhead Pages" do
   describe "thread show page" do
     let!(:thread_tag) { ThreadTag.first }
     let!(:user) { FactoryGirl.create(:user) }
-    let!(:threadhead) { Threadhead.create_with_friends false,
-                                                       {title: 'title', text: 'text'},
-                                                       thread_tag.id,
-                                                       user }
-    before { visit threadhead_path(threadhead) }
- 
-    it { should have_title(threadhead.first_message.title) }
+    let!(:threadhead) { FactoryGirl.create(:threadhead_and_friends) }
+    let!(:answer) { FactoryGirl.create(:message, user: user) }
+    let!(:m_node) { FactoryGirl.create(:treenode, obj: answer,
+                                       parent_node: threadhead.first_message.treenode) }
+    let!(:answer2) { FactoryGirl.create(:message, user: user) }
+    let!(:m_node2) { FactoryGirl.create(:treenode, obj: answer2,
+                                       parent_node: threadhead.first_message.treenode) }
+    before do
+      sign_in user
+      visit threadhead_path(threadhead)
+    end 
+
+    it { should have_title(threadhead.title) }
     it { should have_content(thread_tag.name) } # a changer quand on aura plus de tags
-    it { should have_content(threadhead.first_message.title) }
-    it { should have_content(threadhead.first_message.text) }
+    it { should have_content(threadhead.title) }
+    it { should have_content(threadhead.text) }
     it { should have_content(threadhead.user.name) }
+
+    describe "first answers" do
+      it { should have_button(answer.title) }
+      it { should have_button(answer2.title) }
+      
+      it "select an answer should add a path" do
+        expect { click_button(answer.title) }.to change(Path, :count).by(1)
+      end
+     
+      describe "after selecting an answer, it should be displayed" do
+        before { click_button(answer.title) }
+
+        it { should have_content(answer.text) }
+        
+        it "clicking on the close box should delete a path" do
+          expect { click_link('x') }.to change(Path, :count).by(-1)
+        end
+
+        describe "after closing an answer, it shouldn't be displayed" do
+          before { click_link('x') }
+          it { should_not have_content(answer.text) }
+        end
+       
+      end
+      
+    end
 
     describe "adding an answer" do
 
@@ -163,7 +195,10 @@ describe "Threadhead Pages" do
           it "should create a treenode with the message" do
             expect { click_button('Send') }.to change(Treenode, :count).by(1)
           end
-
+ 
+          it "should create a path with the message" do
+            expect { click_button('Send') }.to change(Path, :count).by(1)
+          end
         end
 
         describe "with invalid informations" do

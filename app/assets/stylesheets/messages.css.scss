@@ -1,6 +1,10 @@
 
 // MESSAGES
 
+.first_message {
+  background-color: #dddddd !important;
+}
+
 .message {
   background-color: #eeeeee;
   padding: 10px;
@@ -63,17 +67,31 @@
     float: left;
   }
 
-  .message_count {
-     float: right;
+  .unread_message {
+    float: right;
+    
+    .btn {
+      padding: 0px 8px 2px 8px;
+      margin-right: -10px;
+    }
   }
+
 }
 
 .message_footer {
   height: auto;
+  
+  .toggle_answers {
+    float: right;
+  }
+
+  .toggle_form {
+   // float: left;
+  }
+
 }
 
 .message_author {
-  #width: 70px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 5px;
@@ -88,20 +106,35 @@
 //MESSAGE OVERVIEW
 
 .message_answers {
-  width: 620px;  
+  width: 620px;
+  margin-bottom: 5px;  
   
   table {
     margin: 0px;
-  }
+  } 
 
   .table_scroll {
     height:152px;
     overflow-y: auto; 
   } 
 
- .author_avatar {
-   width: 30px;
- }
+  .message_title * {
+    margin: 0px;
+  }
+
+  .author {
+    width: 180px;
+    .author_avatar {
+      float: left;
+    }
+
+   .author_name {
+      float: left;
+      margin-left: 5px;
+    }
+  }
+
+
 }
 
 

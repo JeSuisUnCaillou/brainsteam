@@ -9,8 +9,13 @@ class MessagesController < ApplicationController
                                            current_user,
                                            message_params[:parent_node_id])
     unless @message.nil?
+      Path.create(user: current_user,
+                  threadhead_id: message_params[:threadhead_id],
+                  treenode: @message.treenode)
+
       flash[:success] = "Answer sent"
       redirect_to threadhead_path(message_params[:threadhead_id])
+
     else
       flash[:error] = "Title and content of your message can't be blank"
       redirect_to threadhead_path(message_params[:threadhead_id])

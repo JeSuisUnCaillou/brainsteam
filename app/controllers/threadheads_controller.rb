@@ -23,11 +23,15 @@ class ThreadheadsController < ApplicationController
     @thread_tags = ThreadTag.all
   end
 
+
   def show
+    store_location    
 
     @threadhead = Threadhead.find(params[:id])
     @new_message = Message.new
-    paths = @threadhead.paths_by_user(current_user) # optimisable
+    @new_path = Path.new
+
+    paths = @threadhead.paths_by_user(current_user)
    
     if signed_in? && paths.empty? #si le user n'est jamais venu sur ce thread
       path_1 = Path.create(user: current_user,
@@ -47,16 +51,17 @@ class ThreadheadsController < ApplicationController
     temp_node = treenodes_temp.where(obj_type: Threadhead.to_s).first
     @treenodes.push temp_node
 
-    until treenodes_temp.where(parent_node_id: temp_node.id).empty? do
+    until temp_node.nil? || treenodes_temp.where(parent_node_id: temp_node.id).empty? do
       ## on ne choisit qu'une réponse à la fois pour l'instant ##
       temp_node = treenodes_temp.where(parent_node_id: temp_node.id).first
-      @treenodes.push temp_node
+      @treenodes.push temp_node unless temp_node.nil?
     end
  
     flash[:notice] = "Hey, buddy ! If you're not logged in,
                      I don't know what to do unless show
                      you the first message" unless signed_in?    
   end
+
 
   def new
     @threadhead = Threadhead.new

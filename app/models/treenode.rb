@@ -20,6 +20,10 @@ class Treenode < ActiveRecord::Base
     paths.count
   end
 
+  def has_threadhead_parent?
+    parent_node.obj_type == Threadhead.to_s
+  end
+
   private
     def obj_exists
       if self.obj_type == Threadhead.to_s

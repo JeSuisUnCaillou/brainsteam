@@ -20,7 +20,7 @@ FactoryGirl.define do
          threadhead.link_tag!(ThreadTag.first.id)
          user = User.first
          user ||= FactoryGirl.create(:user)
-         m = FactoryGirl.create(:message, user: user, title: threadhead.id)
+         m = FactoryGirl.create(:message, user: user, title: "thread #{threadhead.id}")
          tn = FactoryGirl.create(:treenode, obj: threadhead)
          tn_m = FactoryGirl.create(:treenode, obj: m, parent_node: tn)
        end
@@ -36,15 +36,21 @@ FactoryGirl.define do
   end
 
   factory :thread_tag_relationship do
-    #sequence(:thread_tag_id) { |n| n%2 }
     threadhead
     thread_tag
   end
   
   factory :message do
-    sequence(:title) { |n| "Titre n°" + n.to_s }
-    sequence(:text) { |n| "Message n°" + n.to_s  }
+    sequence(:title) { |n| "Titre " + n.to_s }
+    sequence(:text) { |n| "Message " + n.to_s }
     user
+
+    factory :message_and_friends do
+      after(:create) do |message|
+        p_node = Treenode.find_by(obj_type: Threadhead.to_s)
+        tn = FactoryGirl.create(:treenode, obj: message, parent_node: p_node)
+      end
+    end
   end
 
   factory :treenode do

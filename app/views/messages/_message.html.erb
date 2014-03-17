@@ -1,5 +1,5 @@
 
-<div class="message">
+<div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%>">
    
   <div class= "message_headbar">
 
@@ -20,12 +20,19 @@
 
        <div class="message_subtitles">
          <small>
+
            <div class="creation_time">
              <%= time_ago_in_words message.created_at %> ago...
            </div>
-           <div class="message_count"><!--a changer par message.answers_count-->
-             <%= message.answers_count  %>
-           </div>
+
+           <% unless message.treenode.has_threadhead_parent? %>
+             <div class="unread_message">
+               <%= link_to 'x', path_of_current_user(message.treenode),
+                                 method: :delete, class: 'btn btn-danger' %>
+             </div>
+           <% end %> 
+
+
          </small>
        </div>
 
@@ -48,12 +55,24 @@
   <div class="message_footer">
 
     <%= button_tag "Answer it", data: { message_id: message.id.to_s }, 
-                                    class: "btn", id: "toggle_#{message.id}"%>
+                                class: "btn toggle_form",
+                                id: "toggle_form_#{message.id}"%>
+
+    <% unless message.treenode.children_nodes.empty? %> 
+      <%= button_tag "View answers", data: { message_id: message.id.to_s },
+                                   class: "btn toggle_answers",
+                                   id: "toggle_answers_#{message.id}" %>
+    <% else %>
+      <%= button_tag "No answers", data: {},
+                                   class: "btn toggle_answers",
+                                   disabled: "disabled" %>
+    <% end %>
 
     <div class="message_form" id="message_form_<%= message.id.to_s %>" 
                               style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
 
-      <%= button_tag "Hide", data: { message_id: message.id.to_s }, class: "btn" %>
+      <%= button_tag "Hide", data: { message_id: message.id.to_s },
+                             class: "btn toggle_form" %>
    
 
       <%= form_for(@new_message, url: messages_path) do |m| %>
@@ -69,7 +88,9 @@
 </div>
 
 
-<div class="message_answers">
+<div class="message_answers"
+     id="message_answers_<%= message.id %>"
+     style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
 
 
   <div class="table_scroll">

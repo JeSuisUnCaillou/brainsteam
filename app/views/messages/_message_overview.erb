@@ -1,10 +1,27 @@
 
 <tr class= "message_overview message">
-  <td class="author_avatar">
-    <%= gravatar_for message_overview.user, size: 20 %>
-  </td>
+
+
   <td class="message_title">
-    <%=link_to truncate(message_overview.title, length: 50), '#' %>
+    <%= form_for(@new_path, url: paths_path) do |p| %>
+      <%= p.hidden_field :threadhead_id, value: @threadhead.id %>
+      <%= p.hidden_field :treenode_id, value: message_overview.treenode.id %>
+      <%= p.submit truncate(message_overview.title, length: 50), class: "btn-link" %>
+    <% end %>
   </td>
+
+
+  <td class="author">
+
+    <div class="author_avatar">
+      <%= gravatar_for message_overview.user, size: 20 %>
+    </div>
+
+    <div class="author_name">
+      <%= message_overview.user.name %>
+    </div>
+
+  </td>
+
 
 </tr>
