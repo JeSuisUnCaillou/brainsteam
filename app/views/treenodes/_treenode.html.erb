@@ -1,3 +1,12 @@
-<div class="treenode" id="treenode_<%= treenode.id %>">
-  <%= render treenode.obj %>
-</div>
+
+<% if treenode.nil? %>
+
+  <div class='empty_treenode'></div>
+
+<% else %>
+
+  <div class="treenode" id="treenode_<%= treenode.id %>">
+    <%= render treenode.obj %>
+  </div>
+
+<% end %>

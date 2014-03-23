@@ -131,6 +131,10 @@ describe "Threadhead Pages" do
     let!(:answer2) { FactoryGirl.create(:message, user: user) }
     let!(:m_node2) { FactoryGirl.create(:treenode, obj: answer2,
                                        parent_node: threadhead.first_message.treenode) }
+    let!(:answer12) { FactoryGirl.create(:message, user: user) }
+    let!(:m_node12) { FactoryGirl.create(:treenode, obj: answer12,
+                                       parent_node: m_node) }
+
     before do
       sign_in user
       visit threadhead_path(threadhead)
@@ -152,6 +156,9 @@ describe "Threadhead Pages" do
      
       describe "after selecting an answer, it should be displayed" do
         before { click_button(answer.title) }
+        let(:user_path) { Path.find_by(threadhead_id: threadhead.id,
+                                       treenode_id: answer.treenode.id,
+                                       user_id: user.id) }
 
         it { should have_content(answer.text) }
         
@@ -159,11 +166,32 @@ describe "Threadhead Pages" do
           expect { click_link('x') }.to change(Path, :count).by(-1)
         end
 
+        describe "submitting a DELETE request to the Path#destroy action" do
+          let!(:reader) { FactoryGirl.create(:user) }
+          before do
+            sign_in reader, no_capybara: true
+            visit threadhead_path(threadhead)
+          end
+
+          it "shouldn't delete the path" do
+            expect { delete path_path(user_path) }.not_to change(Path, :count)
+          end
+        end
+
         describe "after closing an answer, it shouldn't be displayed" do
           before { click_link('x') }
           it { should_not have_content(answer.text) }
         end
        
+        describe "after selecting another answer, it should be displayed" do
+           before { click_button(answer12.title) }
+           it { should have_content(answer12.text) }
+           
+           it "clicking on the first close box should delete all sub-paths" do
+             expect { click_link('x', match: :first) }.to change(Path, :count).by(-2)
+           end
+        end
+
       end
       
     end
@@ -171,7 +199,7 @@ describe "Threadhead Pages" do
     describe "adding an answer" do
 
       describe "as a visitor" do
-        # POST REQUEST à faire
+        #TODO POST REQUEST à faire
       end
 
       describe "as a logged_in user" do

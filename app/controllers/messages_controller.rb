@@ -20,11 +20,10 @@ class MessagesController < ApplicationController
       flash[:error] = "Title and content of your message can't be blank"
       redirect_to threadhead_path(message_params[:threadhead_id])
     end
-
-    #créer le path avec
   end
 
   def destroy
+    
   end
 
   private

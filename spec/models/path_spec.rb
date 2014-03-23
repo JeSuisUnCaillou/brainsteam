@@ -14,6 +14,8 @@ describe Path do
   it { should respond_to(:user) }
   it { should respond_to(:threadhead) }
   it { should respond_to(:treenode) }
+  it { should respond_to(:children_paths) }
+  it { should respond_to(:destroy_with_children_paths) }
   its(:user) { should eq user }
   its(:threadhead) { should eq threadhead }
   its(:treenode) { should eq threadhead.treenode }
@@ -59,6 +61,27 @@ describe Path do
     end
 
     it { should_not be_valid }
+  end
+
+  describe "children_paths" do
+    before { @path.save }
+    let!(:message) { FactoryGirl.create(:message_and_friends, user: user) }
+    let!(:m1_path) { FactoryGirl.create(:path, user: user,
+                                            threadhead: threadhead,
+                                            treenode: threadhead.first_message.treenode) }
+    let!(:m2_path) { FactoryGirl.create(:path, user: user,
+                                            threadhead: threadhead,
+                                            treenode: message.treenode) }
+
+    its(:children_paths) { should eq [m1_path, m2_path] }
+
+    describe "destroy_with_children_paths method" do
+      before { @path.destroy_with_children_paths }
+      it "should destroy children paths" do
+        expect(Path.where(id: [m1_path, m2_path])).to eq []
+      end
+    end
+
   end
 
 end

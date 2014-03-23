@@ -4,7 +4,29 @@
  
   <% if signed_in? %>
  
-    <%= render @treenodes %>
+    <%#= render @treenodes %>
+
+    <%= render @threadhead %>
+
+    <table>
+    <% nodes_in_matrix(@test_treenodes).each do |row| %>
+      
+      <tr class='row'> 
+        <% row.each do |node| %>
+
+          <td>
+            <% if node.nil? %>
+              <div class='empty_treenode treenode' ></div>
+            <% else %>
+              <%= render(node) %>
+            <% end %>
+          </td>
+
+        <% end %>
+      </tr>
+
+    <% end %> 
+    </table>
 
   <% else %>
     

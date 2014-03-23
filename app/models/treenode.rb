@@ -21,7 +21,7 @@ class Treenode < ActiveRecord::Base
   end
 
   def has_threadhead_parent?
-    parent_node.obj_type == Threadhead.to_s
+    parent_node.nil? ? nil : parent_node.obj_type == Threadhead.to_s
   end
 
   private

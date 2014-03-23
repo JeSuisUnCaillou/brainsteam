@@ -13,7 +13,10 @@
   <body>
     <%= render 'layouts/header' %>
 
-    <div class="container">
+
+    <% unless controller_name == 'threadheads' && action_name == 'show' %>
+      <div class="container">
+    <% end %>
 
       <% flash.each do |key, value| %>
         <%= content_tag(:div, value, class: "alert alert-#{key}") %>
@@ -22,7 +25,9 @@
       <%= yield %>
       <%= render 'layouts/footer' %>
       <%= debug(params) if Rails.env.development? %>
-    </div>
 
+    <% unless controller_name == 'threadheads' && action_name == 'show' %>
+      </div>
+    <% end %>
   </body>
 </html>

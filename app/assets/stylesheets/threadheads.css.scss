@@ -6,6 +6,7 @@
 //THREAD HEAD
 .thread_head {
   margin-bottom: 5px;
+  margin-left: 5px;
  }
 
 
@@ -45,3 +46,20 @@
     margin-top: 5px;
   }
 }
+
+// TREENODES
+
+.row {
+  vertical-align: top;
+ }
+
+.empty_treenode {
+  width: 520px;
+  height: 142px;
+  background-color: #eeeeee;
+ }
+
+.treenode {
+  margin-left: 5px;
+  margin-bottom: 5px;
+ }

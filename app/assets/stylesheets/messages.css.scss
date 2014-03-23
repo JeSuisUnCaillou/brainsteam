@@ -10,8 +10,8 @@
   padding: 10px;
   -webkit-border-radius: 6px;
   border-radius: 6px;
-  margin-bottom: 5px;
-  width: 600px;  
+  width: 500px; 
+  //height: 230px;
 
   .message_form { 
     .btn {
@@ -106,7 +106,8 @@
 //MESSAGE OVERVIEW
 
 .message_answers {
-  width: 620px;
+  width: 520px;
+  margin-top: 5px;
   margin-bottom: 5px;  
   
   table {

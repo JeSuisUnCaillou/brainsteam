@@ -47,7 +47,7 @@
   <hr />
 
   <div class="message_text">
-    <p><%= simple_format message.text %></p>
+    <%= simple_format message.text %>
   </div>
 
 
@@ -93,7 +93,7 @@
      style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
 
 
-  <div class="table_scroll">
+  <div class="table_scroll" <%= "style=height:auto;" if message.children_messages.count < 4%> >
 
     <table class="table table-striped table-hover">
       <tbody>

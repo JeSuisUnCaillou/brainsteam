@@ -20,6 +20,7 @@ describe Treenode do
   it { should respond_to(:paths) }
   it { should respond_to(:paths_count) }
   it { should respond_to(:nodes_count) }
+  it { should respond_to(:has_threadhead_parent?) }
   its(:parent_node) { should eq parent_node }
 
   it { should be_valid }
@@ -138,6 +139,26 @@ describe Treenode do
         end
       end
 
+    end
+
+  end
+
+  describe "has_threadhead_parent? method" do
+    before { @treenode.save }
+    let!(:answer) { FactoryGirl.create(:message) }
+    let!(:answer_node) { FactoryGirl.create(:treenode, obj: answer,
+                                                       parent_node: message.treenode) }
+
+    it "should be false for a threadhead" do
+      expect(threadhead.treenode.has_threadhead_parent?).to be_false
+    end
+
+    it "should be true for the first message" do
+      expect(message.treenode.has_threadhead_parent?).to be_true
+    end
+
+    it "should be false for any not-first message" do
+      expect(answer_node.has_threadhead_parent?).to be_false
     end
 
   end

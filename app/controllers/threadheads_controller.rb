@@ -57,6 +57,8 @@ class ThreadheadsController < ApplicationController
       @treenodes.push temp_node unless temp_node.nil?
     end
  
+    @test_treenodes = treenodes_temp 
+
     flash[:notice] = "Hey, buddy ! If you're not logged in,
                      I don't know what to do unless show
                      you the first message" unless signed_in?    

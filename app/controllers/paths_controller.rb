@@ -9,17 +9,18 @@ class PathsController < ApplicationController
     if @path.save
       redirect_to threadhead_path(path_params[:threadhead_id])
     else 
-      flash[:error] = "Doomsday error !"
+      flash[:error] = "You already have selected this answer"
       redirect_to threadhead_path(path_params[:threadhead_id])
     end
   end
 
   def destroy
     path = Path.find(params[:id])
+
     if current_user?(path.user)
 
-      unless path.treenode.has_threadhead_parent?
-        path.destroy
+      unless path.treenode.has_threadhead_parent? || path.treenode.obj_type ==Threadhead.to_s
+        path.destroy_with_children_paths
       else
         flash[:error] = "You can't unread the first message of a thread"
       end
@@ -28,7 +29,7 @@ class PathsController < ApplicationController
       flash[:error] = "Don't even try it, dude."
     end
 
-    redirect_to(:back)
+    redirect_to(threadhead_path(path.threadhead_id))
   end
 
   private
