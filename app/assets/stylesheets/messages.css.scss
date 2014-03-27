@@ -13,6 +13,21 @@
   width: 500px; 
   //height: 230px;
 
+  .toggle_edit {
+    float: left;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
+  .message_edit {
+    #message_title {
+      margin-bottom: 5px;
+    }
+    #message_text {
+      margin: 0px;
+    }
+  }
+
   .message_form { 
     .btn {
       float: left;
@@ -29,12 +44,6 @@
       margin: 0px;
     }
   }
- 
-  #message_title {
-    //float: right;
-    //margin-left: 130px;
-    //size: auto;
-  }
 
   hr {
     margin: 8px;
@@ -48,7 +57,9 @@
 .message_text {
   padding-left: 10px;
   padding-right: 10px;
- 
+  margin-bottom: 5px;
+  overflow-y: auto;
+  height: 250px; 
 }
 
 .message_titles {
@@ -83,10 +94,6 @@
   
   .toggle_answers {
     float: right;
-  }
-
-  .toggle_form {
-   // float: left;
   }
 
 }

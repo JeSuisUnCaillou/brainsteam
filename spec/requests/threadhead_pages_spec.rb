@@ -124,6 +124,7 @@ describe "Threadhead Pages" do
   describe "thread show page" do
     let!(:thread_tag) { ThreadTag.first }
     let!(:user) { FactoryGirl.create(:user) }
+    let!(:user2) { FactoryGirl.create(:user) }
     let!(:threadhead) { FactoryGirl.create(:threadhead_and_friends) }
     let!(:answer) { FactoryGirl.create(:message, user: user) }
     let!(:m_node) { FactoryGirl.create(:treenode, obj: answer,
@@ -145,6 +146,7 @@ describe "Threadhead Pages" do
     it { should have_content(threadhead.title) }
     it { should have_content(threadhead.text) }
     it { should have_content(threadhead.user.name) }
+
 
     describe "first answers" do
       it { should have_button(answer.title) }
@@ -196,6 +198,7 @@ describe "Threadhead Pages" do
       
     end
 
+
     describe "adding an answer" do
 
       describe "as a visitor" do
@@ -205,6 +208,7 @@ describe "Threadhead Pages" do
       describe "as a logged_in user" do
         let!(:reader) { FactoryGirl.create(:user) }
         before do
+          click_link 'Sign out'
           sign_in reader
           visit threadhead_path(threadhead)
         end
@@ -238,6 +242,62 @@ describe "Threadhead Pages" do
       end
 
     end
+
+
+    describe "edit a message" do
+
+      describe "as the creator of the message" do
+        before do
+          fill_in :message_title, match: :first, with: 'edited title'
+          fill_in :message_text, match: :first, with: 'edited text'
+        end 
+       
+        it { should have_selector("input[type=submit][value='Edit']") }
+        
+        describe "should be able to edit the message" do
+          before do
+            page.find("#submit_edit").click
+          end
+
+          it { should have_content('edited title') }
+          it { should have_content('edited text') }
+
+        end 
+      end
+
+      describe "as another user" do
+        let!(:reader) { FactoryGirl.create(:user) }
+        before do
+          click_link 'Sign out'
+          sign_in reader 
+          visit threadhead_path(threadhead)
+        end
+
+        it { should_not have_selector("input[type=submit][value='Edit']") }
+
+        describe "submitting to the update action" do
+          before { patch message_path(threadhead.first_message) }
+          specify { expect(response).to redirect_to(root_path) }
+        end
+
+      end
+
+      describe "as a visitor" do
+        before do
+          click_link 'Sign out'
+          visit threadhead_path(threadhead)
+        end
+        
+        it { should_not have_selector("input[type=submit][value='Edit']") }
+
+        describe "submitting to the update action" do
+          before { patch message_path(threadhead.first_message) }
+          specify { expect(response).to redirect_to(root_path) }
+        end
+      end
+      
+    end
+
 
   end
 

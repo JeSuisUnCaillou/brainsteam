@@ -3,13 +3,11 @@
 <div class= "thread_body" >
  
   <% if signed_in? %>
- 
-    <%#= render @treenodes %>
 
     <%= render @threadhead %>
 
     <table>
-    <% nodes_in_matrix(@test_treenodes).each do |row| %>
+    <% nodes_in_matrix(@treenodes).each do |row| %>
       
       <tr class='row'> 
         <% row.each do |node| %>

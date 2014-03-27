@@ -7,7 +7,6 @@ class Message < ActiveRecord::Base
   validates :title, presence: true
   validates :text, presence: true
 
-
   def children_messages
     @messages = Message.joins(:treenode)
                        .where(treenodes: { parent_node_id: treenode.id })

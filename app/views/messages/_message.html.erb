@@ -1,7 +1,7 @@
 
 <div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%>">
    
-  <div class= "message_headbar">
+  <div class= "message_headbar" id="message_headbar_<%= message.id.to_s %>">
 
     <div class="message_author">
 
@@ -16,7 +16,7 @@
 
    </div>
 
-    <div class="message_titles">
+    <div class="message_titles" id="message_titles_<%= message.id.to_s %>">
 
        <div class="message_subtitles">
          <small>
@@ -36,25 +36,56 @@
          </small>
        </div>
 
-       <div class="message_title">
+       <div class="message_title" id="message_title_<%= message.id.to_s %>">
          <h4> <%= message.title %> </h4>
        </div>
 
     </div>
 
-  </div>
-
   <hr />
 
-  <div class="message_text">
-    <%= simple_format message.text %>
   </div>
+
+
+
+  <div class="message_text" id="message_text_<%= message.id.to_s%>">
+
+           <% if signed_in? %>
+             <% if current_user?(message.user) %>
+                <%= button_tag "Edit", data: { message_id: message.id.to_s },
+                               class: "btn toggle_edit",
+                               id: "toggle_edit_#{message.id}"%>    
+             <% end %>
+           <% end %>
+
+    <%= simple_format message.text %>
+
+  </div>
+
+  <% if signed_in? %>
+    <% if current_user?(message.user) %>
+
+       <div class="message_edit" id="message_edit_<%= message.id.to_s %>"
+                                style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
+
+         <%= button_tag 'Cancel', data: { message_id: message.id.to_s },
+                                class: "btn toggle_edit" %>
+
+         <%= form_for message, url: message_path(message) do |m| %>
+           <%= m.submit "Edit", class: "btn btn-primary", id: 'submit_edit' %>
+           <%= render partial: 'messages/form', locals: { m: m } %>
+         <% end %>
+
+       </div>
+
+     <% end %>
+  <% end %>
 
 
 
   <div class="message_footer">
 
-    <%= button_tag "Answer it", data: { message_id: message.id.to_s }, 
+    <%= button_tag "Reply", data: { message_id: message.id.to_s }, 
                                 class: "btn toggle_form",
                                 id: "toggle_form_#{message.id}"%>
 
@@ -71,7 +102,7 @@
     <div class="message_form" id="message_form_<%= message.id.to_s %>" 
                               style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
 
-      <%= button_tag "Hide", data: { message_id: message.id.to_s },
+      <%= button_tag "Cancel", data: { message_id: message.id.to_s },
                              class: "btn toggle_form" %>
    
 

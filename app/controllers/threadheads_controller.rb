@@ -44,20 +44,9 @@ class ThreadheadsController < ApplicationController
 
     ## Récupération et réorganisation des treenodes ##
    
-    treenodes_temp = Treenode.joins(:paths)
+    @treenodes = Treenode.joins(:paths)
                          .where(paths: {threadhead_id: @threadhead.id,
                                         user_id: current_user})
-    @treenodes = []
-    temp_node = treenodes_temp.where(obj_type: Threadhead.to_s).first
-    @treenodes.push temp_node
-
-    until temp_node.nil? || treenodes_temp.where(parent_node_id: temp_node.id).empty? do
-      ## on ne choisit qu'une réponse à la fois pour l'instant ##
-      temp_node = treenodes_temp.where(parent_node_id: temp_node.id).first
-      @treenodes.push temp_node unless temp_node.nil?
-    end
- 
-    @test_treenodes = treenodes_temp 
 
     flash[:notice] = "Hey, buddy ! If you're not logged in,
                      I don't know what to do unless show

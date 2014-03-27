@@ -26,6 +26,27 @@ class MessagesController < ApplicationController
     
   end
 
+  def update
+    message = Message.find(params[:id])
+
+    if current_user?(message.user)
+
+      message.title = message_params[:title]
+ 
+      if message.update_attributes(title: message_params[:title],
+                                   text: message_params[:text])
+        flash[:success] = "Message updated"
+      else
+        flash[:error] = "Title and content of your message can't be blank"
+      end  
+      redirect_to(:back)
+
+    else
+      flash[:error] = "You are trying to edit someone else's message. I'll tell your mom"
+      redirect_to root_path
+    end
+  end
+
   private
 
     def message_params

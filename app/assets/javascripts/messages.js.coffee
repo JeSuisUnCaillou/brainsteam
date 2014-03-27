@@ -48,6 +48,21 @@ Message.toggle_answers = (message_id) ->
     toggle_button.textContent = 'View answers'
 
 
+Message.toggle_edit = (message_id) ->
+  message_title = document.getElementById('message_headbar_'+message_id)
+  message_text = document.getElementById('message_text_'+message_id)
+  message_edit = document.getElementById('message_edit_'+message_id)
+
+  if message_text.style.display == 'none'
+    message_title.style.display = 'block'
+    message_text.style.display = 'block'
+    message_edit.style.display = 'none'
+  else
+    message_title.style.display = 'none'
+    message_text.style.display = 'none'
+    message_edit.style.display = 'block'
+
+
 $ ->
   $("button.toggle_form[data-message-id]").click ->
     message_id = $(this).data("message-id")
@@ -58,6 +73,9 @@ $ ->
     message_id = $(this).data("message-id")
     Message.toggle_answers(message_id)
 
-
+$ ->
+  $("button.toggle_edit[data-message-id]").click ->
+     message_id = $(this).data("message-id")
+     Message.toggle_edit(message_id)
 
 
