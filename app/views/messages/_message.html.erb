@@ -50,14 +50,6 @@
 
   <div class="message_text" id="message_text_<%= message.id.to_s%>">
 
-           <% if signed_in? %>
-             <% if current_user?(message.user) %>
-                <%= button_tag "Edit", data: { message_id: message.id.to_s },
-                               class: "btn toggle_edit",
-                               id: "toggle_edit_#{message.id}"%>    
-             <% end %>
-           <% end %>
-
     <%= simple_format message.text %>
 
   </div>
@@ -88,6 +80,14 @@
     <%= button_tag "Reply", data: { message_id: message.id.to_s }, 
                                 class: "btn toggle_form",
                                 id: "toggle_form_#{message.id}"%>
+
+    <% if signed_in? %>
+      <% if current_user?(message.user) %>
+        <%= button_tag "Edit", data: { message_id: message.id.to_s },
+                               class: "btn toggle_edit",
+                               id: "toggle_edit_#{message.id}"%>    
+      <% end %>
+    <% end %>
 
     <% unless message.treenode.children_nodes.empty? %> 
       <%= button_tag "View answers", data: { message_id: message.id.to_s },

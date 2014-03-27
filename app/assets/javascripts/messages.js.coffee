@@ -52,15 +52,18 @@ Message.toggle_edit = (message_id) ->
   message_title = document.getElementById('message_headbar_'+message_id)
   message_text = document.getElementById('message_text_'+message_id)
   message_edit = document.getElementById('message_edit_'+message_id)
+  toggle_button = document.getElementById('toggle_edit_'+message_id)
 
   if message_text.style.display == 'none'
     message_title.style.display = 'block'
     message_text.style.display = 'block'
     message_edit.style.display = 'none'
+    toggle_button.style.display = 'block'
   else
     message_title.style.display = 'none'
     message_text.style.display = 'none'
     message_edit.style.display = 'block'
+    toggle_button.style.display = 'none'
 
 
 $ ->
