@@ -1,6 +1,18 @@
 
 <tr class= "message_overview">
 
+  <td class="author">
+
+    <div class="author_avatar">
+      <%= gravatar_for message_overview.user, size: 20 %>
+    </div>
+
+    <!--div class="author_name">
+      <%#= message_overview.user.name %>
+    </div-->
+
+  </td>
+
 
   <td class="message_title">
     <%= form_for(@new_path, url: paths_path) do |p| %>
@@ -11,16 +23,13 @@
   </td>
 
 
-  <td class="author">
+  <td class="message_indicators">
+    
+    <%= render partial: 'messages/answers_count',
+               locals: { count: message_overview.treenode.children_nodes.count } %>
 
-    <div class="author_avatar">
-      <%= gravatar_for message_overview.user, size: 20 %>
-    </div>
-
-    <div class="author_name">
-      <%= message_overview.user.name %>
-    </div>
-
+    <%= render partial: 'messages/readers_count',
+               locals: { count: message_overview.treenode.paths.count } %>
   </td>
 
 

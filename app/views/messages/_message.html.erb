@@ -32,9 +32,15 @@
              </div>
            <% end %> 
 
-
          </small>
+
+         <%= render partial: 'messages/answers_count',
+                      locals: { count: message.treenode.children_nodes.count } %>
+
+         <%= render partial: 'messages/readers_count',
+                      locals: { count: message.treenode.paths.count } %>
        </div>
+
 
        <div class="message_title" id="message_title_<%= message.id.to_s %>">
          <h4> <%= message.title %> </h4>
@@ -61,7 +67,7 @@
                                 style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
 
          <%= button_tag 'Cancel', data: { message_id: message.id.to_s },
-                                class: "btn toggle_edit" %>
+                                class: "btn btn-danger toggle_edit" %>
 
          <%= form_for message, url: message_path(message) do |m| %>
            <%= m.submit "Edit", class: "btn btn-primary", id: 'submit_edit' %>
@@ -103,7 +109,7 @@
                               style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
 
       <%= button_tag "Cancel", data: { message_id: message.id.to_s },
-                             class: "btn toggle_form" %>
+                             class: "btn btn-danger toggle_form" %>
    
 
       <%= form_for(@new_message, url: messages_path) do |m| %>

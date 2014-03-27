@@ -26,13 +26,22 @@
 }
 
 .thread_author { 
-  width: 180px;
-
+  //width: 180px;
+ 
+  a {
+   float: left;
+  }
+  
   .gravatar {
     float: left;
     margin-right: 10px;
   }
 }
+
+.thread_indicators {
+  //width: 103px;
+}
+
 .admin_links {
   //width: 100px;
 }

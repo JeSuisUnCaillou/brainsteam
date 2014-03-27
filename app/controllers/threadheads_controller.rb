@@ -4,6 +4,8 @@ class ThreadheadsController < ApplicationController
   before_action :admin_user, only: [:destroy]
 
   def index
+    store_location    
+
     order =  params.has_key?(:order) ? params[:order].to_sym : :desc
     id_table = []
     thread_tag_ids = ThreadTag.select(:id)
@@ -42,8 +44,7 @@ class ThreadheadsController < ApplicationController
                   treenode: @threadhead.first_message.treenode)
     end
 
-    ## Récupération et réorganisation des treenodes ##
-   
+    ## Récupération des treenodes ## 
     @treenodes = Treenode.joins(:paths)
                          .where(paths: {threadhead_id: @threadhead.id,
                                         user_id: current_user})
