@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
                                            current_user,
                                            message_params[:parent_node_id],
                                            message_params[:threadhead_id])
-    unless @message.nil?
+    if @message.valid?
       Path.create(user: current_user,
                   threadhead_id: message_params[:threadhead_id],
                   treenode: @message.treenode)
@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
       redirect_to threadhead_path(message_params[:threadhead_id])
 
     else
-      flash[:error] = "Title and content of your message can't be blank"
+      flash[:error] = @message.errors.full_messages
       redirect_to threadhead_path(message_params[:threadhead_id])
     end
   end
@@ -38,7 +38,7 @@ class MessagesController < ApplicationController
                                    text: message_params[:text])
         flash[:success] = "Message updated"
       else
-        flash[:error] = "Title and content of your message can't be blank"
+        flash[:error] = message.errors.full_messages
       end  
       redirect_to(:back)
 

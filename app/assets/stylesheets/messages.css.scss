@@ -149,7 +149,8 @@
 
   .message_title {
     input {
-     text-align:left;
+      padding: 0px;
+      text-align:left;
       width: 350px;
       word-wrap: break-word;
     }
@@ -159,8 +160,14 @@
     }
   }
 
+  .already_read_answer {
+    color: grey !important;
+    width: 350px;
+    word-wrap: break-word;
+  }
+
   .author {
-    //width: 180px;
+    width: 20px;
     .author_avatar {
       float: left;
     }

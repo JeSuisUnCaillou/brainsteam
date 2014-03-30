@@ -9,7 +9,7 @@ class Message < ActiveRecord::Base
   validates :threadhead_id, presence: true
   validate :threadhead_id_exists
 
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 140 }
   validates :text, presence: true
 
   def answers_count
@@ -43,11 +43,11 @@ class Message < ActiveRecord::Base
          return @message
        else
          @message.destroy
-         return nil
+         return @message
        end
 
      else
-       return nil
+       return @message
      end
   end
 

@@ -5,7 +5,7 @@ describe Message do
   let!(:thread_tag) { FactoryGirl.create(:thread_tag) }
   let!(:threadhead) { FactoryGirl.create(:threadhead_and_friends) }
   before { @message = FactoryGirl.create(:message, user: user,
-                                                   title: "Titre",
+                                                   title: "a"*140,
                                                    text: "contenu...",
                                                    threadhead: threadhead) }
 
@@ -50,6 +50,11 @@ describe Message do
 
   describe "when title is empty" do
     before { @message.title = nil }
+    it { should_not be_valid }
+  end
+
+  describe "when title is longer than 140 char" do
+    before { @message.title = "a"*141 }
     it { should_not be_valid }
   end
 

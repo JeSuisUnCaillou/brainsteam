@@ -15,11 +15,21 @@
 
 
   <td class="message_title">
-    <%= form_for(@new_path, url: paths_path) do |p| %>
-      <%= p.hidden_field :threadhead_id, value: @threadhead.id %>
-      <%= p.hidden_field :treenode_id, value: message_overview.treenode.id %>
-      <%= p.submit message_overview.title, class: "btn-link" %>
-    <% end %>
+
+    <% if path_of_current_user(message_overview.treenode).nil? %>
+
+      <%= form_for(@new_path, url: paths_path) do |p| %>
+        <%= p.hidden_field :threadhead_id, value: @threadhead.id %>
+        <%= p.hidden_field :treenode_id, value: message_overview.treenode.id %>
+        <%= p.submit message_overview.title, class: "btn-link" %>
+      <% end %>
+
+   <% else %>
+      <div class="already_read_answer">
+        <%= message_overview.title%>
+      </div>
+   <% end %>
+
   </td>
 
 

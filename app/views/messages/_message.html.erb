@@ -132,7 +132,8 @@
      style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
 
 
-  <div class="table_scroll" <%= "style=height:auto;" if message.children_messages.count < 4%> >
+  <div class="table_scroll"
+       <%= "style=height:auto;" if message.children_messages.count < 4 %> >
 
     <table class="table table-striped table-hover">
       <tbody>

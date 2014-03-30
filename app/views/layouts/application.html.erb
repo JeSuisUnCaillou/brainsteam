@@ -19,7 +19,13 @@
     <% end %>
 
       <% flash.each do |key, value| %>
-        <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+        <% if value.class == Array %>
+          <% value.each do |v| %>
+            <%= content_tag(:div, v, class: "alert alert-#{key}") %>
+          <% end %>
+        <% else %>
+          <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+        <% end %>
       <% end %>
 
       <%= yield %>

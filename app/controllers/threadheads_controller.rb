@@ -77,7 +77,13 @@ class ThreadheadsController < ApplicationController
                                                  threadhead_params[:thread_tag_id],
                                                  current_user)
     if @threadhead.nil?
-      flash[:error] = "Title and content of your message can't be blank"
+      message = Message.new(title: threadhead_params[:message][:title],
+                            text: threadhead_params[:message][:text],
+                            user: current_user,
+                            threadhead: Threadhead.first)
+      message.save # ce message sert juste à récupérer les erreurs de création
+      message.destroy
+      flash[:error] = message.errors.full_messages
       redirect_to new_threadhead_path
     else
       redirect_to threadhead_path(@threadhead)

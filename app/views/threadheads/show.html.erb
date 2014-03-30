@@ -7,21 +7,70 @@
     <%= render @threadhead %>
 
     <table>
-    <% nodes_in_matrix(@treenodes).each do |row| %>
-      
+
+    <% table_nodes = nodes_in_matrix(@treenodes) %>
+    <% row_num = 0 %>
+
+    <% table_nodes.each do |row| %>
+
+      <% node_num = 0 %>
+
       <tr class='row'> 
         <% row.each do |node| %>
 
           <td>
+            <% if node.nil? || !node.has_threadhead_parent? %> 
+
+              <% top_node = table_nodes[row_num -1][node_num] %>
+              <% right_nodes = table_nodes[row_num].slice(node_num +1, table_nodes[row_num].length) %>
+
+              <div class='treelink'>
+                
+                <% if node.nil? %>
+
+                  <div class="left horizontal_treelink" > </div>
+                  <div class="empty_node vertical_treelink"> </div>
+                  <div class="horizontal_treelink" > </div>
+                   
+                <% elsif node.parent_node == top_node %>
+
+                  <div class="no_left vertical_treelink"> </div>
+
+                  <% unless right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty?  %>
+                    <div class="horizontal_treelink" > </div>
+                  <% end %>
+
+                <% elsif right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty? %>
+
+                  <div class="left horizontal_treelink" > </div>
+                  <div class="half vertical_treelink"> </div>
+ 
+                <% else %>
+
+                  <div class="left horizontal_treelink" > </div>
+                  <div class="half vertical_treelink"> </div>
+                  <div class="horizontal_treelink" > </div>
+
+                <% end %>
+             
+              </div>
+ 
+            <% end %>
+
             <% if node.nil? %>
               <div class='empty_treenode treenode' ></div>
             <% else %>
               <%= render(node) %>
             <% end %>
+
           </td>
+
+          <% node_num = node_num + 1 %>
 
         <% end %>
       </tr>
+
+      <% row_num = row_num + 1 %>
 
     <% end %> 
     </table>
