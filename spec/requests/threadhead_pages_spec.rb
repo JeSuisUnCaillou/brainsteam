@@ -25,15 +25,42 @@ describe "Threadhead Pages" do
     let(:first_threadhead) { Threadhead.first }
 
     describe "filters" do
-      describe "ascending filter" do
+
+      describe "Last updated order" do
         before do
-           select 'ascending', from: 'Creation time'
+           select 'Last updated', from: 'order'
            click_button('Filter')
         end
-        it { should_not have_selector("tr.threadhead", text: first_threadhead.first_message.title) }
-        it { should have_selector("tr.threadhead", text: Threadhead.last.first_message.title) }
+        it { should have_selector("tr.threadhead",
+                                  text: Threadhead.first.title) }
+        it { should_not have_selector("tr.threadhead",
+                                      text: Threadhead.last.title) }
       end
-      
+
+      describe "Views order" do
+        before do
+          select 'Views', from: 'order'
+          click_button 'Filter'
+        end
+        it { should have_selector("tr.threadhead",
+                                  text: Threadhead.sort_by_views.first.title) }
+        it { should_not have_selector("tr.threadhead",
+                                      text: Threadhead.sort_by_views.last.title) } 
+      end
+     
+
+      describe "Answers order" do
+        before do
+          select 'Answers', from: 'order'
+          click_button 'Filter'
+        end
+        it { should have_selector("tr.threadhead",
+                                  text: Threadhead.sort_by_answers.first.title) }
+        it { should_not have_selector("tr.threadhead",
+                                      text: Threadhead.sort_by_answers.last.title) } 
+      end
+
+ 
       describe "tag filters" do        
         before do
           uncheck ThreadTag.first.name
@@ -57,6 +84,10 @@ describe "Threadhead Pages" do
       it { should have_link(first_threadhead.title, href: threadhead_path(first_threadhead)) }
       it { should have_selector('tr.threadhead', text: first_threadhead.first_message.title) }
       it { should have_selector('tr.threadhead', text: first_threadhead.user.name) }
+      it { should have_selector("div#readers_count_#{first_threadhead.id}",
+                                text: first_threadhead.treenode.paths.count) }
+      it { should have_selector("div#answers_count_#{first_threadhead.id}",
+                                text: first_threadhead.answers_count) }
     end
 
     describe "pagination" do
@@ -146,7 +177,10 @@ describe "Threadhead Pages" do
     it { should have_content(threadhead.title) }
     it { should have_content(threadhead.text) }
     it { should have_content(threadhead.user.name) }
-
+    it { should have_selector("div#readers_count_#{threadhead.first_message.id}",
+                              text: threadhead.first_message.treenode.paths.count) }
+    it { should have_selector("div#answers_count_#{threadhead.first_message.id}",
+                              text: threadhead.first_message.treenode.children_nodes.count) }
 
     describe "first answers" do
       it { should have_button(answer.title) }

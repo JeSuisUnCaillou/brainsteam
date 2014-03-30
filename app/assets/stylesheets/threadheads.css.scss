@@ -25,21 +25,36 @@
   width: 75px;
 }
 
+.thread_titles {
+
+  .thread_title {
+    width: 620px;
+    word-wrap: break-word;
+  }
+
+  .last_message_date {
+    float: right;
+    color: grey;
+  }
+}
+
 .thread_author { 
-  //width: 180px;
+  width: 190px;
  
-  a {
+  .thread_author_name {
    float: left;
+   width: 160px;
+   word-wrap: break-word;
   }
   
-  .gravatar {
+  .thread_author_gravatar {
     float: left;
     margin-right: 10px;
   }
 }
 
 .thread_indicators {
-  //width: 103px;
+  width: 103px;
 }
 
 .admin_links {

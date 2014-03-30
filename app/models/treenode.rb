@@ -12,6 +12,7 @@ class Treenode < ActiveRecord::Base
   validate :obj_exists
   validate :parent_node_exists
 
+  # /!\ not optimised method
   def nodes_count
     1 + children_nodes.map{ |n| n.nodes_count }.sum
   end

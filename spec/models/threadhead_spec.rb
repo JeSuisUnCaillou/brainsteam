@@ -18,8 +18,9 @@ describe Threadhead do
   it { should respond_to(:user) }
   it { should respond_to(:title) }
   it { should respond_to(:text) }
-  it { should respond_to(:answers_count) } #write right spec
-
+  it { should respond_to(:answers_count) }
+  it { should respond_to(:views_count) }
+  it { should respond_to(:messages) }
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -56,9 +57,11 @@ describe Threadhead do
     its(:treenode) { should eq thread_node }
 
     describe "first_message 'association'" do
-      let!(:message) { FactoryGirl.create(:message) }
+      let!(:message) { FactoryGirl.create(:message, threadhead: @threadhead) }
       let!(:m_treenode) { FactoryGirl.create(:treenode, obj: message, parent_node: @threadhead.treenode) }
       its(:first_message) { should eq message }
+      its(:messages) { should eq [message] }
+      its(:answers_count) { should eq 0 }
     end
   end
 
@@ -98,6 +101,7 @@ describe Threadhead do
                                              treenode: @threadhead.first_message.treenode) }
     
       its(:paths) { should eq [path_2, path_3, path_1] }
+      its(:views_count) { should eq 2 }
       
       describe "paths_by_user method" do
 

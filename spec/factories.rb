@@ -14,13 +14,16 @@ FactoryGirl.define do
 
   factory :threadhead do
     sequence(:private) { |n| false } 
-    
+    last_message_date DateTime.now    
+
     factory :threadhead_and_friends do 
       after(:create) do |threadhead|
          threadhead.link_tag!(ThreadTag.first.id)
          user = User.first
          user ||= FactoryGirl.create(:user)
-         m = FactoryGirl.create(:message, user: user, title: "thread #{threadhead.id}")
+         m = FactoryGirl.create(:message, user: user,
+                                          title: "thread #{threadhead.id}",
+                                          threadhead_id: threadhead.id)
          tn = FactoryGirl.create(:treenode, obj: threadhead)
          tn_m = FactoryGirl.create(:treenode, obj: m, parent_node: tn)
        end
@@ -44,10 +47,11 @@ FactoryGirl.define do
     sequence(:title) { |n| "Titre " + n.to_s }
     sequence(:text) { |n| "Message " + n.to_s }
     user
+    threadhead
 
     factory :message_and_friends do
       after(:create) do |message|
-        p_node = Treenode.find_by(obj_type: Threadhead.to_s)
+        p_node = Treenode.find_by(obj: message.threadhead)
         tn = FactoryGirl.create(:treenode, obj: message, parent_node: p_node)
       end
     end

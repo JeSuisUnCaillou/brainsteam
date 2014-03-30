@@ -65,7 +65,8 @@ describe Path do
 
   describe "children_paths" do
     before { @path.save }
-    let!(:message) { FactoryGirl.create(:message_and_friends, user: user) }
+    let!(:message) { FactoryGirl.create(:message_and_friends, user: user,
+                                                              threadhead: threadhead) }
     let!(:m1_path) { FactoryGirl.create(:path, user: user,
                                             threadhead: threadhead,
                                             treenode: threadhead.first_message.treenode) }

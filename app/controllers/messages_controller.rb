@@ -7,7 +7,8 @@ class MessagesController < ApplicationController
     @message = Message.create_with_friends(message_params[:title],
                                            message_params[:text],
                                            current_user,
-                                           message_params[:parent_node_id])
+                                           message_params[:parent_node_id],
+                                           message_params[:threadhead_id])
     unless @message.nil?
       Path.create(user: current_user,
                   threadhead_id: message_params[:threadhead_id],

@@ -22,7 +22,7 @@ class PathsController < ApplicationController
       unless path.treenode.has_threadhead_parent? || path.treenode.obj_type ==Threadhead.to_s
         path.destroy_with_children_paths
       else
-        flash[:error] = "You can't unread the first message of a thread"
+        flash[:error] = "You can't unread the first message of a thread, neither a thread"
       end
 
     else

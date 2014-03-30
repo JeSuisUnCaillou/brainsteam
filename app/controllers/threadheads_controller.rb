@@ -6,7 +6,6 @@ class ThreadheadsController < ApplicationController
   def index
     store_location    
 
-    order =  params.has_key?(:order) ? params[:order].to_sym : :desc
     id_table = []
     thread_tag_ids = ThreadTag.select(:id)
     if params.has_key?(:thread_tag) 
@@ -17,10 +16,22 @@ class ThreadheadsController < ApplicationController
       id_table = thread_tag_ids
     end
  
-    @threadheads = Threadhead.joins(:thread_tags) 
+    threadheads = Threadhead.joins(:thread_tags) 
                              .where(thread_tags: {id: id_table})
-                             .reorder(created_at: order) #a changer par un genre de :modified_at
-                             .paginate(page: params[:page])
+
+    order =  params.has_key?(:order) ? params[:order].to_sym : :last_message_date
+
+    if order == :views
+      threadheads = threadheads.sort_by_views
+    elsif order == :answers
+      threadheads = threadheads.sort_by_answers
+    elsif order == :last_message_date
+      #do nothing
+    else
+      #do nothing
+    end
+    
+    @threadheads = threadheads.paginate(page: params[:page])
 
     @thread_tags = ThreadTag.all
   end
@@ -76,7 +87,7 @@ class ThreadheadsController < ApplicationController
   def destroy
     threadhead = Threadhead.find(params[:id])
     treenode = Treenode.find(threadhead.treenode)
-    #threadhead.destroy est fait par treenode.destroy, qui détruit aussi ses fils
+    #threadhead.destroy est fait par treenode.destroy, qui détruit aussi ses objets et fils
     treenode.destroy
     flash[:success] = "Thread destroyed."
     redirect_to threadheads_path

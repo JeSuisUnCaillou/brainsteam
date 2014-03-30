@@ -10,7 +10,7 @@
       </div>
 
       <div class="author_name center">
-        <%= link_to truncate(message.user.name, length:20),
+        <%= link_to message.user.name,
                     user_path(message.user) %>
       </div>
 
@@ -35,10 +35,12 @@
          </small>
 
          <%= render partial: 'messages/answers_count',
-                      locals: { count: message.treenode.children_nodes.count } %>
+                      locals: { count: message.answers_count,
+                                obj_id: message.id } %>
 
          <%= render partial: 'messages/readers_count',
-                      locals: { count: message.treenode.paths.count } %>
+                      locals: { count: message.views_count,
+                                obj_id: message.id } %>
        </div>
 
 
