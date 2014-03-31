@@ -1,46 +1,53 @@
 
-<div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%>">
-   
+<div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%>"
+     id="message_<%= message.id.to_s %>">
+  
+ 
   <div class= "message_headbar" id="message_headbar_<%= message.id.to_s %>">
-
-    <div class="message_author">
-
-      <div class="author_avatar center">
-        <%= gravatar_for message.user, size: 30 %>
-      </div>
-
-      <div class="author_name center">
-        <%= link_to message.user.name,
-                    user_path(message.user) %>
-      </div>
-
-   </div>
-
     <div class="message_titles" id="message_titles_<%= message.id.to_s %>">
+       
+       <a name="<%= message.id.to_s %>" style="margin-top: -60px; float: left;"></a>
 
        <div class="message_subtitles">
-         <small>
 
-           <div class="creation_time">
-             <%= time_ago_in_words message.created_at %> ago...
-           </div>
+         <div class="message_author">
 
-           <% unless message.treenode.has_threadhead_parent? %>
-             <div class="unread_message">
-               <%= link_to 'x', path_of_current_user(message.treenode),
-                                 method: :delete, class: 'btn btn-danger' %>
+           <a href="<%=user_path(message.user)%>" title="<%=message.user.name%>">
+             <div class= "author_avatar">
+               <%= gravatar_for message.user, size: 24 %>
              </div>
-           <% end %> 
 
-         </small>
+             <div class="author_name">
+                 <%= link_to truncate(message.user.name, length: 25),
+                             user_path(message.user),
+                             title: message.user.name %>
+             </div>
+           </a>
 
-         <%= render partial: 'messages/answers_count',
+         </div>
+
+         <% unless message.treenode.has_threadhead_parent? %>
+           <div class="unread_message">
+             <%= link_to 'x', path_of_current_user(message.treenode),
+                               method: :delete, class: 'btn btn-danger',
+                               title: 'unread' %>
+           </div>
+         <% end %>
+
+         <div class="date_views_answer_subtitle"> 
+           <%= render partial: 'messages/answers_count',
                       locals: { count: message.answers_count,
                                 obj_id: message.id } %>
-
-         <%= render partial: 'messages/readers_count',
+           <%= render partial: 'messages/readers_count',
                       locals: { count: message.views_count,
                                 obj_id: message.id } %>
+           <small>
+             <div class="creation_time">
+               <%= time_ago_in_words message.created_at %> ago...
+             </div>
+           </small>
+         </div>
+
        </div>
 
 
@@ -50,7 +57,7 @@
 
     </div>
 
-  <hr />
+    <hr />
 
   </div>
 
@@ -68,14 +75,13 @@
        <div class="message_edit" id="message_edit_<%= message.id.to_s %>"
                                 style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
 
-         <%= button_tag 'Cancel', data: { message_id: message.id.to_s },
-                                class: "btn btn-danger toggle_edit" %>
-
          <%= form_for message, url: message_path(message) do |m| %>
-           <%= m.submit "Edit", class: "btn btn-primary", id: 'submit_edit' %>
            <%= render partial: 'messages/form', locals: { m: m } %>
+           <%= m.submit "Edit", class: "btn btn-primary", id: 'submit_edit' %>
          <% end %>
 
+         <%= button_tag 'Cancel', data: { message_id: message.id.to_s },
+                                class: "btn btn-danger toggle_edit" %>
        </div>
 
      <% end %>
@@ -83,7 +89,7 @@
 
 
 
-  <div class="message_footer">
+  <div class="message_footer" id="message_footer_<%= message.id.to_s %>">
 
     <%= button_tag "Reply", data: { message_id: message.id.to_s }, 
                                 class: "btn toggle_form",
@@ -110,16 +116,15 @@
     <div class="message_form" id="message_form_<%= message.id.to_s %>" 
                               style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
 
-      <%= button_tag "Cancel", data: { message_id: message.id.to_s },
-                             class: "btn btn-danger toggle_form" %>
-   
-
       <%= form_for(@new_message, url: messages_path) do |m| %>
-        <%= m.submit "Send", class: "btn btn-primary" %>
         <%= render partial: 'messages/form', locals: { m: m } %>
         <%= m.hidden_field :parent_node_id, value: message.treenode.id %>
         <%= m.hidden_field :threadhead_id, value: @threadhead.id %>
+        <%= m.submit "Send", class: "btn btn-primary submit_answer_button" %>
       <% end %>    
+
+      <%= button_tag "Cancel", data: { message_id: message.id.to_s },
+                             class: "btn btn-danger toggle_form" %>
     </div>
 
   </div>
@@ -138,7 +143,7 @@
     <table class="table table-striped table-hover">
       <tbody>
         <%= render partial: 'messages/message_overview',
-                             collection: message.children_messages %>
+                             collection: message.children_messages.sort_by_views %>
       </tbody>
     </table>
 

@@ -3,13 +3,15 @@
 
   <td class="author">
 
-    <div class="author_avatar">
-      <%= gravatar_for message_overview.user, size: 20 %>
-    </div>
-
-    <!--div class="author_name">
-      <%#= message_overview.user.name %>
-    </div-->
+    <a href="<%=user_path(message_overview.user)%>" title="<%=message_overview.user.name%>">
+      <div class="author_avatar">
+        <%= gravatar_for message_overview.user, size: 20 %>
+      </div>
+      
+      <!--div class="author_name">
+        <%#= message_overview.user.name %>
+      </div-->
+    </a>
 
   </td>
 

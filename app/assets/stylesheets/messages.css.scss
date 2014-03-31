@@ -3,12 +3,23 @@
 
 .answers_count {
   float: right;
-  margin-right: 7px;
+  margin-right: 5px;
+  * {
+   float: left;
+   margin-right: 2px;
+  }
 }
 
 .readers_count {
   float: right;
-  margin-right: 7px;
+  margin-right: 5px;
+  * {
+    float: left;
+    margin-right: 2px;
+  }
+  img {
+   margin-top: 3px;
+  }
 }
 
 
@@ -24,42 +35,45 @@
   -webkit-border-radius: 6px;
   border-radius: 6px;
   width: 500px; 
-  //height: 230px;
-
-  .toggle_edit {
-    float: left;
-    margin-right: 5px;
-    margin-bottom: 5px;
-  }
 
   .message_edit {
+
+    .edit_message {
+      margin: 0px
+    }
+
+    #submit_edit {
+      float: right;
+    }
+
     #message_title {
       margin-bottom: 5px;
     }
+
     #message_text {
-      margin: 0px;
+      margin-bottom: 5px;
     }
+
   }
 
   .message_form { 
-    .btn {
-      float: left;
-      margin-right: 5px;
-      margin-bottom: 5px;
+    .submit_answer_button {
+      float: right;
     }
     .new_message {
       margin: 0px;
     }
     #message_title {
+      margin-top: 5px;
       margin-bottom: 5px;
     }
     #message_text {
-      margin: 0px;
+      margin-bottom: 5px;
     }
   }
 
   hr {
-    margin: 8px;
+    margin: 8px 0px 8px 0px;
   }
 }
 
@@ -68,8 +82,6 @@
 }
 
 .message_text {
-  padding-left: 10px;
-  padding-right: 10px;
   margin-bottom: 5px;
   overflow-y: auto;
   height: 250px;
@@ -82,18 +94,24 @@
 
   .message_title h4 {
     margin: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
     width: 480px;
     word-wrap: break-word;
   }
   
   .message_subtitles {
+    height: 30px;
+    margin-bottom: 5px;
+  }
+
+  .date_views_answer_subtitle {
     height: 20px;
+    float: right;
+    margin-top: 2px;
   }
 
   .creation_time {
-    float: left;
+    float: right;
+    margin-right: 5px;
   }
 
   .unread_message {
@@ -101,7 +119,6 @@
     
     .btn {
       padding: 0px 8px 2px 8px;
-      //margin-right: -10px;
     }
   }
 
@@ -117,17 +134,17 @@
 }
 
 .message_author {
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 5px;
-  //height: 50px;
   float: left;
 
-  width: 160px;
-  word-wrap: break-word;
-
   .author_avatar {
-     
+    float: left;
+  }
+  .author_name {
+    float: left;
+    margin-left: 5px;
+    margin-top: 2px;
+    //width: 230px;
+    //word-wrap: break-word;
   }
 }
 

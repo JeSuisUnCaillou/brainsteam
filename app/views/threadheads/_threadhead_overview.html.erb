@@ -8,7 +8,12 @@
   <td class="thread_titles">
 
     <div class="thread_title">
-      <%= link_to threadhead_overview.first_message.nil? ? '[ERROR] This is the end of the world !' : threadhead_overview.title, threadhead_path(threadhead_overview) %>
+      <% if threadhead_overview.first_message.nil? %>
+        <%=  '[ERROR] This is the end of the world !' %>
+      <% else %>
+        <%= link_to threadhead_overview.title,
+                   threadhead_path(threadhead_overview) %>
+      <% end %>
     </div>
 
     <div class="threadhead_subtitles">
@@ -30,12 +35,17 @@
 
 
   <td class="thread_author">
-    <div class= "thread_author_gravatar">
-      <%= gravatar_for threadhead_overview.user, size: 18 %>
-    </div>
-    <div class="thread_author_name">
-      <%= link_to threadhead_overview.user.name, user_path(threadhead_overview.user) %>
-    </div>
+    
+    <a href="<%=user_path(threadhead_overview.user)%>"
+                                         title="<%=threadhead_overview.user.name%>">
+      <div class= "thread_author_gravatar">
+        <%= gravatar_for threadhead_overview.user, size: 18 %>
+      </div>
+      <div class="thread_author_name">
+        <%= link_to threadhead_overview.user.name, user_path(threadhead_overview.user) %>
+      </div>
+    </a>
+
   </td>
 
 

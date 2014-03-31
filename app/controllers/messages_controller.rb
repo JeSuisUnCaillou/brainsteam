@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
 
     else
       flash[:error] = @message.errors.full_messages
-      redirect_to threadhead_path(message_params[:threadhead_id])
+      redirect_to threadhead_path(message_params[:threadhead_id]) # use render + anchor ?
     end
   end
 

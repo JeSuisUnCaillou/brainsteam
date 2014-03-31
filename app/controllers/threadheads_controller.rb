@@ -62,7 +62,7 @@ class ThreadheadsController < ApplicationController
 
     flash[:notice] = "Hey, buddy ! If you're not logged in,
                      I don't know what to do unless show
-                     you the first message" unless signed_in?    
+                     you the first message" unless signed_in?
   end
 
 

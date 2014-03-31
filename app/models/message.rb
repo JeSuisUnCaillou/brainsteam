@@ -1,4 +1,12 @@
 class Message < ActiveRecord::Base
+
+  scope :sort_by_views, -> { joins(:treenode)
+                             .joins('LEFT OUTER JOIN paths
+                                     ON paths.treenode_id = treenodes.id')
+                             .select('messages.*, count(paths.id) as paths_count')
+                             .group('messages.id')
+                             .reorder('paths_count DESC, created_at DESC') }
+
   belongs_to :user
   has_one :treenode, as: :obj
   belongs_to :threadhead
