@@ -3,7 +3,8 @@
 
 <div class="answers_count" id="answers_count_<%= obj_id %>">
   <small>
-    <%= image_tag 'answers.png', alt: 'answers', title: 'answers' %>
+    <% str =  obj_type == Threadhead.to_s ? 'total of answers' : 'answers' %>
+    <%= image_tag 'answers.png', alt: str, title: str %>
     <%= " : #{count}" %>
   </small>
 </div>

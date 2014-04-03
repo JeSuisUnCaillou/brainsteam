@@ -13,7 +13,7 @@ $grayMediumLight: #eaeaea;
 /* universal */
 
 html {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: auto;
 }
 
@@ -76,6 +76,11 @@ h2 {
 p {
   //font-size: 1.1em;
   //line-height: 1.7em;
+}
+
+
+.visited_link {
+  color: #609;
 }
 
 

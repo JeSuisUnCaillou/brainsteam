@@ -56,9 +56,7 @@ class ThreadheadsController < ApplicationController
     end
 
     ## Récupération des treenodes ## 
-    @treenodes = Treenode.joins(:paths)
-                         .where(paths: {threadhead_id: @threadhead.id,
-                                        user_id: current_user})
+    @treenodes = @threadhead.treenodes_for_user(current_user)
 
     flash[:notice] = "Hey, buddy ! If you're not logged in,
                      I don't know what to do unless show

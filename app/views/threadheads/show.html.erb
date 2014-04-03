@@ -24,6 +24,7 @@
               <% top_node = table_nodes[row_num -1][node_num] %>
               <% right_nodes = table_nodes[row_num].slice(node_num +1, table_nodes[row_num].length) %>
 
+              <%# TREELINK DISPLAY %>
               <div class='treelink'>
                 
                 <% if node.nil? %>
@@ -61,6 +62,7 @@
  
             <% end %>
 
+            <%# TREENODE DISPLAY %>
             <% if node.nil? %>
               <div class='empty_treenode treenode' ></div>
             <% else %>

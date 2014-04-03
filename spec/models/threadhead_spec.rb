@@ -21,6 +21,7 @@ describe Threadhead do
   it { should respond_to(:answers_count) }
   it { should respond_to(:views_count) }
   it { should respond_to(:messages) }
+  it { should respond_to(:treenodes_for_user) }
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -121,6 +122,27 @@ describe Threadhead do
           @threadhead.paths_by_user(nil).should eq []
         end
   
+      end
+
+      describe "treenodes_for_user method" do
+
+        it "with a reader" do
+          @threadhead.treenodes_for_user(reader.id).should eq [path_1.treenode]
+        end
+
+        it "with the author" do
+          @threadhead.treenodes_for_user(user.id).should eq [path_3.treenode,
+                                                             path_2.treenode]
+        end
+
+        it "with a not-yet-a-reader" do
+          @threadhead.treenodes_for_user(no_reader.id).should eq []
+        end
+
+        it "with a nil user" do
+          @threadhead.treenodes_for_user(nil).should eq []
+        end
+
       end
 
       describe "destroy a threadhead" do

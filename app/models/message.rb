@@ -59,6 +59,15 @@ class Message < ActiveRecord::Base
      end
   end
 
+  #def search_th_id
+  #  if treenode.parent_node.obj_type == Threadhead.to_s
+  #    return treenode.parent_node.obj.id
+  #  else
+  #    return treenode.parent_node.obj.search_th_id
+  #  end
+  #end
+
+
   private
     def user_id_exists
       errors.add(:user_id, "is invalid") unless User.exists?(self.user_id)

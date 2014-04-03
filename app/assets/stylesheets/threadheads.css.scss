@@ -3,12 +3,20 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 
+//NEW THREAD
+form.new_threadhead {
+  input {
+   margin-bottom: 5px;
+   margin-right: 5px;
+  }
+}
+
+
 //THREAD HEAD
 .thread_head {
   margin-bottom: 5px;
   margin-left: 5px;
  }
-
 
 
 //INDEX OF THREADS
@@ -127,5 +135,7 @@
   }
 
 }
+
+
 
 

@@ -1,6 +1,15 @@
 
 // MESSAGES INDICATORS
 
+.new_answers_count {
+  float: right;
+  margin-right: 5px;
+  * {
+   float: left;
+   margin-right: 2px;
+  }
+}
+
 .answers_count {
   float: right;
   margin-right: 5px;
@@ -95,6 +104,7 @@
   .message_title h4 {
     margin: 0px;
     width: 480px;
+    height: 55px;
     word-wrap: break-word;
   }
   

@@ -50,8 +50,34 @@ class Threadhead < ActiveRecord::Base
     paths.where(user_id: user_id)
   end
 
+  def treenodes_for_user(user_id)
+    Treenode.joins(:paths)
+            .where(paths: { threadhead_id: self.id,
+                            user_id: user_id})
+            .order('paths.created_at DESC')
+  end
+
+  def new_answers_for_user(user_id) 
+    treenodes_opened = self.treenodes_for_user(user_id)
+    
+    if treenodes_opened.empty?
+      return nil
+    else
+      tns_already_viewed = Treenode.where(parent_node_id: treenodes_opened)
+                                 .joins('INNER JOIN paths 
+                                         ON paths.treenode_id = treenodes.id')
+                                 .where(paths: {user_id: user_id})
+      if tns_already_viewed.empty?
+        tns = Treenode.where(parent_node_id: treenodes_opened)
+      else
+        tns = Treenode.where(parent_node_id: treenodes_opened)
+                      .where('id NOT IN (?)', tns_already_viewed.map{ |t| t.id })
+      end
+    end
+  end
+
   def answers_count
-    -1 + Message.where(threadhead_id: id).count
+    -1 + messages.count
   end
 
   def views_count

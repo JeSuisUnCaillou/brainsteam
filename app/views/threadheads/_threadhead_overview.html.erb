@@ -8,12 +8,15 @@
   <td class="thread_titles">
 
     <div class="thread_title">
+
       <% if threadhead_overview.first_message.nil? %>
         <%=  '[ERROR] This is the end of the world !' %>
       <% else %>
         <%= link_to threadhead_overview.title,
-                   threadhead_path(threadhead_overview) %>
+                   threadhead_path(threadhead_overview),
+                   class: ("visited_link" unless threadhead_overview.paths_by_user(current_user).empty?) %>
       <% end %>
+
     </div>
 
     <div class="threadhead_subtitles">
@@ -22,13 +25,23 @@
           ...<%= time_ago_in_words threadhead_overview.last_message_date %> ago
         </small>
       </div>
+
+      <% unless threadhead_overview.paths_by_user(current_user).empty? %>
+        <%= render partial: 'messages/new_answers_count',
+                   locals: { count: threadhead_overview.new_answers_for_user(current_user)
+                                                       .count,
+                            obj_id: threadhead_overview.id } %>
+      <% end %>
+
       <%= render partial: 'messages/answers_count', #refaire avec total des answers
                  locals: { count: threadhead_overview.answers_count,
-                           obj_id: threadhead_overview.id } %>
+                           obj_id: threadhead_overview.id,
+                           obj_type: Threadhead.to_s } %>
 
       <%= render partial: 'messages/readers_count',
                  locals: { count: threadhead_overview.views_count,
                            obj_id: threadhead_overview.id } %>
+
     </div>
 
   </td>

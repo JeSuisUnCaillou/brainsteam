@@ -18,5 +18,6 @@ namespace :db do
 
     ThreadTag.create!(name: "Real world")
     ThreadTag.create!(name: "Crazy stuff")
+    ThreadTag.create!(name: "Brainsteam")
   end
 end

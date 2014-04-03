@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329234928) do
+ActiveRecord::Schema.define(version: 20140402135127) do
 
   create_table "messages", force: true do |t|
     t.string   "title"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20140329234928) do
     t.integer  "treenode_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active",        default: true
   end
 
   add_index "paths", ["threadhead_id", "user_id"], name: "index_paths_on_threadhead_id_and_user_id"

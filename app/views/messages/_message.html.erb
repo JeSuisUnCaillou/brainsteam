@@ -5,8 +5,6 @@
  
   <div class= "message_headbar" id="message_headbar_<%= message.id.to_s %>">
     <div class="message_titles" id="message_titles_<%= message.id.to_s %>">
-       
-       <a name="<%= message.id.to_s %>" style="margin-top: -60px; float: left;"></a>
 
        <div class="message_subtitles">
 
@@ -35,9 +33,13 @@
          <% end %>
 
          <div class="date_views_answer_subtitle"> 
+           <%= render partial: 'messages/new_answers_count',
+                      locals: { count: new_answers_for_current_user(message.treenode).count,
+                                obj_id: message.id } %>
            <%= render partial: 'messages/answers_count',
                       locals: { count: message.answers_count,
-                                obj_id: message.id } %>
+                                obj_id: message.id,
+                                obj_type: Message.to_s } %>
            <%= render partial: 'messages/readers_count',
                       locals: { count: message.views_count,
                                 obj_id: message.id } %>
@@ -107,6 +109,7 @@
       <%= button_tag "View answers", data: { message_id: message.id.to_s },
                                    class: "btn toggle_answers",
                                    id: "toggle_answers_#{message.id}" %>
+     
     <% else %>
       <%= button_tag "No answers", data: {},
                                    class: "btn toggle_answers",

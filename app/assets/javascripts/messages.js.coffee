@@ -88,15 +88,3 @@ $ ->
   $("button.toggle_edit[data-message-id]").click ->
      message_id = $(this).data("message-id")
      Message.toggle_edit(message_id)
-
-#ready = ->
-#  message = document.getElementById('message_54')
-#  if message != null
-#    rect = message.getBoundingClientRect()
-#    x = rect.left + document.documentElement.scrollLeft - 50
-#    y = rect.top + document.documentElement.scrollTop - 50
-#    window.scrollTo(x, y)
-
-
-$(document).ready(ready)
-$(document).on('page:load', ready)

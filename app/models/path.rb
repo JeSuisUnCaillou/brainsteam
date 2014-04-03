@@ -1,4 +1,9 @@
 class Path < ActiveRecord::Base
+
+  default_scope -> { where(active: true) }
+  
+  scope :desactivated, -> { where(active: false) }
+
   belongs_to :user
   belongs_to :threadhead
   belongs_to :treenode
@@ -20,12 +25,32 @@ class Path < ActiveRecord::Base
   end
 
 
-  def destroy_with_children_paths
+  def self.create_or_reactivate(user_id, threadhead_id, treenode_id)
+    path = Path.find_by(user_id: user_id,
+                      threadhead_id: threadhead_id,
+                      treenode_id: treenode_id,
+                      active: false)
+    if path.nil?
+      path = Path.create(user_id: user_id,
+                      threadhead_id: threadhead_id,
+                      treenode_id: treenode_id,
+                      active: true)
+    else
+      path.active = true
+      path.save
+    end
+
+    return path.valid? ? path : nil
+  end
+
+
+  def desactivate_with_children_paths
     paths = self.children_paths
     paths.each do |p|
-      p.destroy_with_children_paths
+      p.desactivate_with_children_paths
     end
-    self.destroy
+    self.active = false
+    self.save
   end
   
   private

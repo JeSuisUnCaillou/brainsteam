@@ -3,10 +3,10 @@ class PathsController < ApplicationController
   before_action :signed_in_user, only: [:create, :destroy]
 
   def create
-    @path = Path.new(user: current_user,
-                     threadhead_id: path_params[:threadhead_id],
-                     treenode_id: path_params[:treenode_id])
-    if @path.save
+    @path = Path.create_or_reactivate(current_user.id,
+                                   path_params[:threadhead_id],
+                                   path_params[:treenode_id])
+    unless @path.nil?
       redirect_to threadhead_path(path_params[:threadhead_id])
     else 
       flash[:error] = "You already have selected this answer"
@@ -20,7 +20,7 @@ class PathsController < ApplicationController
     if current_user?(path.user)
 
       unless path.treenode.has_threadhead_parent? || path.treenode.obj_type ==Threadhead.to_s
-        path.destroy_with_children_paths
+        path.desactivate_with_children_paths
       else
         flash[:error] = "You can't unread the first message of a thread, neither a thread"
       end

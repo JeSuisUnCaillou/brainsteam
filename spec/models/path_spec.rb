@@ -15,11 +15,13 @@ describe Path do
   it { should respond_to(:threadhead) }
   it { should respond_to(:treenode) }
   it { should respond_to(:children_paths) }
-  it { should respond_to(:destroy_with_children_paths) }
+  it { should respond_to(:desactivate_with_children_paths) }
+  it { should respond_to(:active) }
   its(:user) { should eq user }
   its(:threadhead) { should eq threadhead }
   its(:treenode) { should eq threadhead.treenode }
- 
+  its(:active) { should eq true }
+
   it { should be_valid } 
 
 
@@ -76,11 +78,83 @@ describe Path do
 
     its(:children_paths) { should eq [m1_path, m2_path] }
 
-    describe "destroy_with_children_paths method" do
-      before { @path.destroy_with_children_paths }
-      it "should destroy children paths" do
+    describe "desactivate_with_children_paths method" do
+      before { @path.desactivate_with_children_paths }
+      it "should desactivate children paths" do
         expect(Path.where(id: [m1_path, m2_path])).to eq []
       end
+    end
+
+  end
+
+
+
+
+  describe "create_or_reactivate metod" do
+
+    
+    describe "when no desactivated path exists" do
+
+       it "checking this path doesn't exists" do
+         expect(Path.where(user_id: user.id,
+                        threadhead_id: threadhead.id,
+                        treenode_id: threadhead.first_message.treenode.id)).to eq [] 
+       end
+
+       describe "calling the method" do
+
+         before do
+           @new_path = Path.create_or_reactivate(user.id,
+                                          threadhead.id,
+                                          threadhead.first_message.treenode.id)
+         end
+
+         it "should create a new path" do
+           expect(Path.where(user_id: user.id,
+                          threadhead_id: threadhead.id,
+                          treenode_id: threadhead.first_message.treenode.id))
+                  .to eq [@new_path] 
+         end
+
+       end
+      
+      
+    end
+ 
+    describe "when a desactivated path already exists" do
+
+      before do
+        @old_path = Path.create(user_id: user.id,
+                                threadhead_id: threadhead.id,
+                                treenode_id: threadhead.first_message.treenode.id,
+                                active: false)
+      end
+
+       it "checking this desactivated path exists" do
+         expect(Path.where(user_id: user.id,
+                        threadhead_id: threadhead.id,
+                        treenode_id: threadhead.first_message.treenode.id,
+                        active: false))
+                .to eq [@old_path] 
+       end
+ 
+       describe "calling the method" do
+         before do
+           @new_path = Path.create_or_reactivate(user.id,
+                                          threadhead.id,
+                                          threadhead.first_message.treenode.id)
+         end
+
+         it "should reactivate the path" do
+           expect(Path.where(user_id: user.id,
+                          threadhead_id: threadhead.id,
+                          treenode_id: threadhead.first_message.treenode.id,
+                          active: true))
+                  .to eq [@new_path] 
+         end
+         
+       end
+
     end
 
   end

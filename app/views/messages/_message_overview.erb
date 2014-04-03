@@ -18,12 +18,18 @@
 
   <td class="message_title">
 
-    <% if path_of_current_user(message_overview.treenode).nil? %>
+    <% if path_of_current_user(message_overview.treenode).nil? || !desactivated_path_of_current_user(message_overview.treenode).nil? %>
 
       <%= form_for(@new_path, url: paths_path) do |p| %>
         <%= p.hidden_field :threadhead_id, value: @threadhead.id %>
         <%= p.hidden_field :treenode_id, value: message_overview.treenode.id %>
-        <%= p.submit message_overview.title, class: "btn-link" %>
+
+        <% if desactivated_path_of_current_user(message_overview.treenode).nil? %>
+          <%= p.submit message_overview.title, class: "btn-link" %>
+        <% else %>
+          <%= p.submit message_overview.title, class: "btn-link visited_link"%>
+        <% end %>
+
       <% end %>
 
    <% else %>
@@ -39,7 +45,8 @@
     
     <%= render partial: 'messages/answers_count',
                locals: { count: message_overview.answers_count,
-                         obj_id: message_overview.id } %>
+                         obj_id: message_overview.id,
+                         obj_type: Message.to_s } %>
 
     <%= render partial: 'messages/readers_count',
                locals: { count: message_overview.views_count,
