@@ -16,8 +16,11 @@ namespace :db do
                    password_confirmation: password)
     end
 
-    ThreadTag.create!(name: "Real world")
-    ThreadTag.create!(name: "Crazy stuff")
-    ThreadTag.create!(name: "Brainsteam")
+    ThreadTag.create!(name: "Real world", 
+                      description: "About something real, or realizable")
+    ThreadTag.create!(name: "Crazy stuff", 
+                      description: "About whatever you can imagine, and even more")
+    ThreadTag.create!(name: "Brainsteam",
+                      description: "About Brainsteam and its features")
   end
 end

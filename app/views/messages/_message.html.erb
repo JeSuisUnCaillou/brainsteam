@@ -1,5 +1,6 @@
 
-<div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%>"
+<div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%> 
+                    <%= 'last_message' if !message.treenode.has_threadhead_parent? && message.treenode.id == last_treenode_read(message.threadhead).id %>"
      id="message_<%= message.id.to_s %>">
   
  
@@ -33,16 +34,19 @@
          <% end %>
 
          <div class="date_views_answer_subtitle"> 
-           <%= render partial: 'messages/new_answers_count',
-                      locals: { count: new_answers_for_current_user(message.treenode).count,
+           <%= render partial: 'messages/readers_count',
+                      locals: { count: message.views_count,
                                 obj_id: message.id } %>
            <%= render partial: 'messages/answers_count',
                       locals: { count: message.answers_count,
                                 obj_id: message.id,
                                 obj_type: Message.to_s } %>
-           <%= render partial: 'messages/readers_count',
-                      locals: { count: message.views_count,
-                                obj_id: message.id } %>
+           <% if signed_in? %>
+             <%= render partial: 'messages/new_answers_count',
+                       locals: { count: new_answers_for_current_user(message.treenode).count,
+                                 obj_id: message.id } %>
+           <% end %>
+
            <small>
              <div class="creation_time">
                <%= time_ago_in_words message.created_at %> ago...

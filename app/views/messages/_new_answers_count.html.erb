@@ -1,7 +1,9 @@
 
-<div class="new_answers_count" id="new_answers_count_<%= obj_id %>">
-  <small>
-    <%= image_tag 'new_answers.png', alt: 'unread answers', title: 'unread answers' %>
-    <%= " : #{count}" %>
-  </small>
-</div>
+<% if count > 0 %>
+  <div class="new_answers_count" id="new_answers_count_<%= obj_id %>">
+    <small>
+      <%= image_tag 'new_answers.png', alt: 'unread answers', title: 'unread answers' %>
+      <%= " : #{count}" %>
+    </small>
+  </div>
+<% end %>

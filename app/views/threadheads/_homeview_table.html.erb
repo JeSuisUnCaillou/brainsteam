@@ -1,0 +1,25 @@
+
+
+
+<div class="homeview_table" id="homeview_table_<%= tag_id %>">
+
+  <div class="homeview_header">
+    <div class="homeview_header_text">
+      Top five conversations from
+    </div>
+    <%= render ThreadTag.find(tag_id) %>
+  </div>
+
+  <small>
+      <table class="homeview_table table table-striped table-hover table-bordered">
+        <tbody>
+          <%= render partial: 'threadheads/threadhead_homeview',
+                               collection: Threadhead.joins(:thread_tags)
+                                                .where("thread_tags.id = #{tag_id}")
+                                                .sort_by_views
+                                                .limit(5) %>
+        </tbody>
+      </table>
+  </small>
+
+</div>

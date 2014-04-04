@@ -26,9 +26,9 @@ describe "Threadhead Pages" do
 
     describe "filters" do
 
-      describe "Last updated order" do
+      describe "Last update order" do
         before do
-           select 'Last updated', from: 'order'
+           select 'Last update', from: 'order'
            click_button('Filter')
         end
         it { should have_selector("tr.threadhead",
@@ -88,6 +88,21 @@ describe "Threadhead Pages" do
                                 text: first_threadhead.treenode.paths.count) }
       it { should have_selector("div#answers_count_#{first_threadhead.id}",
                                 text: first_threadhead.answers_count) }
+
+      describe "new messages indicator" do
+        it { should_not have_selector('div.new_answers_count') }
+        
+        describe "after visiting a thread and going back" do
+          let!(:user) { FactoryGirl.create(:user) }
+          before do
+            sign_in user
+            visit threadhead_path(first_threadhead)
+            visit threadheads_path
+          end
+          it {should have_selector('div.new_answers_count', text: "0") }
+        end
+
+      end
     end
 
     describe "pagination" do
@@ -182,6 +197,9 @@ describe "Threadhead Pages" do
     it { should have_selector("div#answers_count_#{threadhead.first_message.id}",
                               text: threadhead.first_message.treenode.children_nodes.count) }
 
+    it { should have_selector("div#new_answers_count_#{threadhead.first_message.id}",
+                              text: "2") }
+
     describe "first answers" do
       it { should have_button(answer.title) }
       it { should have_button(answer2.title) }
@@ -197,6 +215,10 @@ describe "Threadhead Pages" do
                                        user_id: user.id) }
 
         it { should have_content(answer.text) }
+
+        # the first message's new_answer_count should have changed
+        it { should have_selector("div#new_answers_count_#{threadhead.first_message.id}",
+                              text: "1") }
         
         it "clicking on the close box should delete a path" do
           expect { click_link('x') }.to change(Path, :count).by(-1)
@@ -265,6 +287,31 @@ describe "Threadhead Pages" do
           it "should create a path with the message" do
             expect { click_button('Send') }.to change(Path, :count).by(1)
           end
+
+          describe "then logged as another viewer" do
+            let!(:viewer) { FactoryGirl.create(:user) }
+
+            before do
+              click_link 'Sign out'
+              visit threadheads_path
+              sign_in viewer
+            end
+
+            it { should_not have_selector('div.new_answers_count') }
+
+            describe "visiting a thread" do
+              before { visit threadhead_path(threadhead) }
+             
+              it { should have_selector('div.new_answers_count', text: "2") }
+
+              describe "then coming back to index" do
+                before { visit threadheads_path }
+                it { should have_selector('div.new_answers_count', text: "2") }
+              end
+            end
+
+          end
+
         end
 
         describe "with invalid informations" do

@@ -2,23 +2,24 @@
 .thread_tag {
 
   color: white;
-  padding: 0px 5px 0px 8px;
+  padding: 0px 10px 0px 10px;
   margin: 0px;
   font-size: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px; 
-  width: 62px;
-
+  //width: 62px;
+  line-height: 20px;
+  display: inline-block;
 }
 
-#thread_tag_1 { //Real world  
-  background-color: #009933; 
+#thread_tag_n1 { //Real world  
+  background-color: #00CC00; 
 }
 
-#thread_tag_2 { //Crazy stuff
+#thread_tag_n2 { //Crazy stuff
   background-color: #FF9933;// #FF9900;
 }
 
-#thread_tag_3 { //Brainsteam
+#thread_tag_n3 { //Brainsteam
   background-color: #0099CC;
 }

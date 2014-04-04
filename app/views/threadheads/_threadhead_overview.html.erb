@@ -20,11 +20,15 @@
     </div>
 
     <div class="threadhead_subtitles">
-      <div class="last_message_date">
-        <small>
-          ...<%= time_ago_in_words threadhead_overview.last_message_date %> ago
-        </small>
-      </div>
+
+      <%= render partial: 'messages/readers_count',
+                 locals: { count: threadhead_overview.views_count,
+                           obj_id: threadhead_overview.id } %>
+
+      <%= render partial: 'messages/answers_count', #refaire avec total des answers
+                 locals: { count: threadhead_overview.answers_count,
+                           obj_id: threadhead_overview.id,
+                           obj_type: Threadhead.to_s } %>
 
       <% unless threadhead_overview.paths_by_user(current_user).empty? %>
         <%= render partial: 'messages/new_answers_count',
@@ -33,14 +37,11 @@
                             obj_id: threadhead_overview.id } %>
       <% end %>
 
-      <%= render partial: 'messages/answers_count', #refaire avec total des answers
-                 locals: { count: threadhead_overview.answers_count,
-                           obj_id: threadhead_overview.id,
-                           obj_type: Threadhead.to_s } %>
-
-      <%= render partial: 'messages/readers_count',
-                 locals: { count: threadhead_overview.views_count,
-                           obj_id: threadhead_overview.id } %>
+      <div class="last_message_date">
+        <small>
+          Last update <%= time_ago_in_words threadhead_overview.last_message_date %> ago...
+        </small>
+      </div>
 
     </div>
 

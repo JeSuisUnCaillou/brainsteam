@@ -3,16 +3,17 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-#window.Threadhead = {}
+window.Threadhead = {}
 
-#Threadhead.scrollTo = ->
-#  ele = $( "div#treenode_85" )
-#  if ele != null
-#    $(window).scrollTop(ele.offset().top - 60).scrollLeft(ele.offset().left - 20);
-#    #alert 'caca'
+Threadhead.scrollTo = (treenode_id) ->
+  ele = $( "div#treenode_"+treenode_id )
+  if ele != null
+    $(window).scrollTop(ele.offset().top - 50).scrollLeft(ele.offset().left - 10);
 
-#$( ->
-#  Threadhead.scrollTo()
-#)
+$ ->
+  $("button.scroll_to[data-treenode-id]").click ->
+    treenode_id = $(this).data("treenode-id")
+    Threadhead.scrollTo(treenode_id)
+
 
 #window.onload( window.scrollTo(0);)

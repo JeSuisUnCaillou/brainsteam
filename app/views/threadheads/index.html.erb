@@ -7,7 +7,7 @@
 
     <%= label_tag :order, "Order by:" %>
     <%= select_tag :order,
-                   options_for_select([["Last updated", :last_message_date],
+                   options_for_select([["Last update", :last_message_date],
                                        ["Answers", :answers],
                                        ["Views", :views]],
                                       params[:order]),
@@ -17,16 +17,17 @@
 
   <% @thread_tags.each do |thread_tag| %>
 
-    <div class="filter_menu_part">
-      <%= label_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.name + " ●",
-                                                          value: thread_tag.id,
-                                                          class: "thread_tag",
-                                                          id: "thread_tag_#{thread_tag.id}"%>
+    <div class="filter_menu_part" title="<%= thread_tag.description %>">
+      <%= label_tag "thread_tag[#{thread_tag.id}]",
+                    thread_tag.name,
+                    value: thread_tag.id,
+                    class: "thread_tag",
+                    id: "thread_tag_n#{thread_tag.id}"%>
 
       <% if params.has_key?(:thread_tag) && !params[:thread_tag].has_key?(thread_tag.id.to_s) %>
-        <%= check_box_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.id %>
+        <%= check_box_tag "thread_tag[#{thread_tag.id}]", thread_tag.id %>
       <% else %> 
-        <%= check_box_tag "thread_tag["+thread_tag.id.to_s+"]", thread_tag.id, checked: true %>
+        <%= check_box_tag "thread_tag[#{thread_tag.id}]", thread_tag.id, checked: true %>
       <% end %>
 
     </div>

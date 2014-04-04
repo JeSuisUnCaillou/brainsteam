@@ -36,6 +36,16 @@
 
 .first_message {
   background-color: #dddddd !important;
+  border-style:solid;
+  border-width: 1px;
+  width: 498px !important;
+}
+
+.last_message {
+  //background-color: #FFFFCC !important;
+  border-style:solid;
+  border-width: 1px;
+  width: 498px !important;
 }
 
 .message {
@@ -122,6 +132,7 @@
   .creation_time {
     float: right;
     margin-right: 5px;
+    color: grey;
   }
 
   .unread_message {

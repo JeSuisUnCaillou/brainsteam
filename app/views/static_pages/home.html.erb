@@ -1,9 +1,27 @@
-<div class="center hero-unit">
+<div class="home_rect center hero-unit">
+  <% store_location %>
+
+  <div class="logo_home_page">
+    <%= image_tag("bulby_brain_maxi.png", size:"200") %> 
+  </div>
+
   <h1>Welcome to Brainsteam</h1>
 
   <h2>
     Discover, create and share (crazy) ideas with other (crazy) humans.
   </h2>
 
-  <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+  <% unless signed_in? %>
+    <%= link_to "Sign up now!", signup_path, class: "btn btn-large btn-primary" %>
+  <% else %>
+
+
+    <div class="homeview_tables">
+      <%= render partial: 'threadheads/homeview_table',
+                 locals: { tag_id: 1 } %>
+      <%= render partial: 'threadheads/homeview_table',
+                 locals: { tag_id: 2 } %>
+    </div>
+
+  <% end %>
 </div>

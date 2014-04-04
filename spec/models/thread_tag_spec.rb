@@ -2,11 +2,12 @@ require 'spec_helper'
 
 describe ThreadTag do
 
-  before { @threadtag = ThreadTag.new(name: "Real world") }
+  before { @threadtag = ThreadTag.new(name: "Real world", description: "descrpt") }
 
   subject { @threadtag }
 
   it { should respond_to(:name) }
+  it { should respond_to(:description) }
   it { should respond_to(:thread_tag_relationships) }
   it { should respond_to(:threadheads) }
 

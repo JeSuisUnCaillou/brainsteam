@@ -2,16 +2,16 @@
 
 <table>
   <tr>
-    <td><%= t.label :private, 'Is private ?' %></td>
-    <td><%= t.check_box :private %></td>
+    <td><%#= t.label :private, 'Is private ?' %></td>
+    <td><%#= t.check_box :private %></td>
 
     <% @thread_tags.each do |thread_tag| %>
-      <td>
+      <td title="<%=thread_tag.description %>">
         <%= t.label :thread_tag_id,
-                    thread_tag.name + ' ●',
+                    thread_tag.name,
                     value: thread_tag.id,
                     class: "thread_tag",
-                    id: "thread_tag_#{thread_tag.id}" %>
+                    id: "thread_tag_n#{thread_tag.id}" %>
       </td>
       <td><%= t.radio_button :thread_tag_id, thread_tag.id, checked: true %></td>
     <% end %>

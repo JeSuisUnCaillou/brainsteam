@@ -36,6 +36,7 @@ FactoryGirl.define do
 
   factory :thread_tag do
     sequence(:name) { |n| ["Real world", "Crazy stuff"][n%2] }
+    sequence(:description) { |n| "description #{n}" }
   end
 
   factory :thread_tag_relationship do

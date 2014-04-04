@@ -1,0 +1,22 @@
+<tr class="threadhead_homeview">
+
+  <td class="homeview_author">
+    <a href="<%=user_path(threadhead_homeview.user)%>"
+                                title="<%=threadhead_homeview.user.name%>">
+      <%= gravatar_for threadhead_homeview.user, size: 18 %>
+    </a>
+  </td>
+
+  <td class="homeview_title">
+    <%= link_to truncate(threadhead_homeview.title, length: 40),
+                threadhead_path(threadhead_homeview),
+                class: ("visited_link" unless threadhead_homeview.paths_by_user(current_user).empty?),
+                title: threadhead_homeview.title %>
+    
+    
+    <%= render partial: 'messages/readers_count',
+               locals: { count: threadhead_homeview.views_count,
+                         obj_id:threadhead_homeview.id } %>
+     
+  </td>
+</tr>

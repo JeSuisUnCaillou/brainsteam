@@ -16,6 +16,17 @@ form.new_threadhead {
 .thread_head {
   margin-bottom: 5px;
   margin-left: 5px;
+  width: 520px;
+  height: 30px;
+
+  .thread_tags {
+    float: left;
+    margin-top: 5px;
+  }
+
+  .scroll_to {
+    float: right;
+  }
  }
 
 
@@ -41,7 +52,7 @@ form.new_threadhead {
   }
 
   .last_message_date {
-    float: right;
+    float: left;
     color: grey;
   }
 }
@@ -137,5 +148,44 @@ form.new_threadhead {
 }
 
 
+// THREADHEAD HOMEVIEW
 
+.homeview_header {
+  margin-bottom: 10px;
+  height: 25px;
 
+  .thread_tag {
+   margin-left: 10px;
+   margin-top: 5px;
+  }
+
+  * {
+   float: left;
+  }
+}
+
+.homeview_tables {
+  margin-top: 20px;
+  height: 210px;
+
+  #homeview_table_1 {
+    float: left;
+  }
+  #homeview_table_2 {
+    float: right;
+  }
+}
+
+.homeview_table {
+  width: 400px;
+}
+
+.threadhead_homeview {
+
+  .homeview_author {
+    width: 18px;
+  }
+
+  .homeview_title {
+  }
+}

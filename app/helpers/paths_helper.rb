@@ -1,7 +1,7 @@
 module PathsHelper
 
   def new_answers_for_current_user(tn) #accepts an array of treenodes too
-    
+    return [] unless signed_in?
     # fetch viewed treenodes, even with desactivated paths
     tns_already_viewed = Treenode.where(parent_node_id: tn)
                                  .joins('INNER JOIN paths 
@@ -25,12 +25,12 @@ module PathsHelper
                                            user: current_user) : nil
   end
 
-  def last_message_read(threadhead)
+  def last_treenode_read(threadhead)
     if signed_in? 
       last_path = Path.where(threadhead_id: threadhead.id,
-                            user_id: current_user.id).order('created_at DESC').first
+                            user_id: current_user.id).order('updated_at DESC').first
       unless last_path.nil?
-        return last_path.treenode.obj_id
+        return last_path.treenode
       end
     end
 

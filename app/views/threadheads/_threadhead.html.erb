@@ -1,5 +1,18 @@
 <div class="thread_head" >
+
   <div class="thread_tags" >
     <%= render @threadhead.thread_tags %> 
   </div>
+
+
+  <% if signed_in? && threadhead.paths_by_user(current_user).count > 2 %>
+    <div class="last_message_button">
+ 
+      <%= button_tag '> last message opened',
+                     data: { treenode_id: last_treenode_read(threadhead).id.to_s },
+                     class: "btn btn-info scroll_to" %>
+
+    </div>
+  <% end %>
+
 </div>
