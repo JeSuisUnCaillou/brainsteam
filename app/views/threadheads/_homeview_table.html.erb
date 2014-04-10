@@ -1,13 +1,13 @@
 
 
 
-<div class="homeview_table" id="homeview_table_<%= tag_id %>">
+<div class="homeview_table" id="homeview_table_<%= tag_name.sub(' ', '_') %>">
 
   <div class="homeview_header">
     <div class="homeview_header_text">
       Top five conversations from
     </div>
-    <%= render ThreadTag.find(tag_id) %>
+    <%= render ThreadTag.find_by(name: tag_name) %>
   </div>
 
   <small>
@@ -15,7 +15,7 @@
         <tbody>
           <%= render partial: 'threadheads/threadhead_homeview',
                                collection: Threadhead.joins(:thread_tags)
-                                                .where("thread_tags.id = #{tag_id}")
+                                                .where("thread_tags.name = '#{tag_name}'")
                                                 .sort_by_views
                                                 .limit(5) %>
         </tbody>

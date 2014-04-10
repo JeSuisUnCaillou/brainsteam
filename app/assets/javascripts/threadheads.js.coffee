@@ -10,10 +10,11 @@ Threadhead.scrollTo = (treenode_id) ->
   if ele != null
     $(window).scrollTop(ele.offset().top - 50).scrollLeft(ele.offset().left - 10);
 
+    
+
 $ ->
   $("button.scroll_to[data-treenode-id]").click ->
     treenode_id = $(this).data("treenode-id")
     Threadhead.scrollTo(treenode_id)
-
 
 #window.onload( window.scrollTo(0);)

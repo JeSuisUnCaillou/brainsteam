@@ -7,10 +7,18 @@
 
   <% if signed_in? && threadhead.paths_by_user(current_user).count > 2 %>
     <div class="last_message_button">
+      <% unreads = new_answers_for_current_user(@treenodes) %>
+
+      <% unless unreads.empty? %>
+        <%= button_tag '> unread answers',
+                     data: { treenode_id: unreads.first.parent_node.id.to_s },
+                     class: "btn btn-info scroll_to" %>
+      <% end %>
  
       <%= button_tag '> last message opened',
                      data: { treenode_id: last_treenode_read(threadhead).id.to_s },
-                     class: "btn btn-info scroll_to" %>
+                     class: "btn scroll_to" %>
+
 
     </div>
   <% end %>

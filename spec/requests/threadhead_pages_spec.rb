@@ -99,7 +99,7 @@ describe "Threadhead Pages" do
             visit threadhead_path(first_threadhead)
             visit threadheads_path
           end
-          it {should have_selector('div.new_answers_count', text: "0") }
+          it {should_not have_selector('div.new_answers_count', text: "0") }
         end
 
       end

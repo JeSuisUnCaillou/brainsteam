@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to Brainsteam !"
-      redirect_to help_path 
+      redirect_to threadheads_path 
     else
       render 'new'
     end

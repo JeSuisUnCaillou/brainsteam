@@ -1,6 +1,6 @@
 
 <div class="message <%= 'first_message' if message.treenode.has_threadhead_parent?%> 
-                    <%= 'last_message' if !message.treenode.has_threadhead_parent? && message.treenode.id == last_treenode_read(message.threadhead).id %>"
+                    <%= 'last_message' if !message.treenode.has_threadhead_parent? && !last_treenode_read(message.threadhead).nil? &&  message.treenode.id == last_treenode_read(message.threadhead).id %>"
      id="message_<%= message.id.to_s %>">
   
  
