@@ -74,17 +74,20 @@ Message.toggle_edit = (message_id) ->
     toggle_button.style.display = 'none'
 
 
-$ ->
-  $("button.toggle_form[data-message-id]").click ->
-    message_id = $(this).data("message-id")
-    Message.toggle_form(message_id)
 
-$ ->
-  $("button.toggle_answers[data-message-id]").click ->
-    message_id = $(this).data("message-id")
-    Message.toggle_answers(message_id)
+$(document).ready(
+  $ ->
+    $("button.toggle_form[data-message-id]").click ->
+      message_id = $(this).data("message-id")
+      Message.toggle_form(message_id)
 
-$ ->
-  $("button.toggle_edit[data-message-id]").click ->
-     message_id = $(this).data("message-id")
-     Message.toggle_edit(message_id)
+  $ ->
+    $("button.toggle_answers[data-message-id]").click ->
+      message_id = $(this).data("message-id")
+      Message.toggle_answers(message_id)
+
+  $ ->
+    $("button.toggle_edit[data-message-id]").click ->
+       message_id = $(this).data("message-id")
+       Message.toggle_edit(message_id)
+)

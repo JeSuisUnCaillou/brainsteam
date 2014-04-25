@@ -25,9 +25,9 @@
         <%= p.hidden_field :treenode_id, value: message_overview.treenode.id %>
 
         <% if desactivated_path_of_current_user(message_overview.treenode).nil? %>
-          <%= p.submit message_overview.title, class: "btn-link" %>
+          <%= p.submit message_overview.title, class: "btn-link break_word" %>
         <% else %>
-          <%= p.submit message_overview.title, class: "btn-link visited_link"%>
+          <%= p.submit message_overview.title, class: "btn-link visited_link break_word"%>
         <% end %>
 
       <% end %>

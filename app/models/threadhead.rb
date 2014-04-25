@@ -22,6 +22,9 @@ class Threadhead < ActiveRecord::Base
   has_many :paths, dependent: :destroy
   has_many :messages
 
+  # has_one :first_message
+  # has_one :user, -> through: :first_message
+
   def link_tag!(tag_id)
     thread_tag_relationships.create!(thread_tag_id: tag_id)
   end
@@ -35,7 +38,7 @@ class Threadhead < ActiveRecord::Base
   end
 
   def user
-    first_message.nil? ? nil : first_message.user
+    first_message.try(:user)
   end
 
   def title 

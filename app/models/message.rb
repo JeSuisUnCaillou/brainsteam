@@ -29,9 +29,8 @@ class Message < ActiveRecord::Base
   end
 
   def children_messages
-    @messages = Message.joins(:treenode)
+    Message.joins(:treenode)
                        .where(treenodes: { parent_node_id: treenode.id })
-    return @messages
   end
 
 
@@ -66,7 +65,6 @@ class Message < ActiveRecord::Base
   #    return treenode.parent_node.obj.search_th_id
   #  end
   #end
-
 
   private
     def user_id_exists

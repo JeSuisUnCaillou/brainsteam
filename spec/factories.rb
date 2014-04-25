@@ -17,6 +17,7 @@ FactoryGirl.define do
     last_message_date DateTime.now    
 
     factory :threadhead_and_friends do 
+      #thread_tags { [ThreadTag.first || create(:thread_tag)] } 
       after(:create) do |threadhead|
          threadhead.link_tag!(ThreadTag.first.id)
          user = User.first

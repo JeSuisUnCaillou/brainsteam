@@ -201,15 +201,17 @@ describe "Threadhead Pages" do
                               text: "2") }
 
     describe "first answers" do
-      it { should have_button(answer.title) }
-      it { should have_button(answer2.title) }
+      it { should have_selector("input[type=submit][value='#{answer.title}']",
+                                 visible: false) }
+      it { should have_selector("input[type=submit][value='#{answer2.title}']",
+                                 visible: false) }
       
       it "select an answer should add a path" do
-        expect { click_button(answer.title) }.to change(Path, :count).by(1)
+        expect { click_button(answer.title, visible: false) }.to change(Path, :count).by(1)
       end
      
       describe "after selecting an answer, it should be displayed" do
-        before { click_button(answer.title) }
+        before { click_button(answer.title, visible: false) }
         let(:user_path) { Path.find_by(threadhead_id: threadhead.id,
                                        treenode_id: answer.treenode.id,
                                        user_id: user.id) }
@@ -242,7 +244,7 @@ describe "Threadhead Pages" do
         end
        
         describe "after selecting another answer, it should be displayed" do
-           before { click_button(answer12.title) }
+           before { click_button(answer12.title, visible: false) }
            it { should have_content(answer12.text) }
            
            it "clicking on the first close box should delete all sub-paths" do
@@ -272,20 +274,20 @@ describe "Threadhead Pages" do
         describe "with valid informations" do
   
           before do
-            fill_in :message_title, with: 'mon titre'
-            fill_in :message_text, with: 'mon texte'
+            fill_in :message_title, with: 'mon titre', visible: false
+            fill_in :message_text, with: 'mon texte', visible: false
           end
 
           it "should create a message" do
-            expect { click_button('Send') }.to change(Message, :count).by(1)
+            expect { click_button('Send', visible: false) }.to change(Message, :count).by(1)
           end
 
           it "should create a treenode with the message" do
-            expect { click_button('Send') }.to change(Treenode, :count).by(1)
+            expect { click_button('Send', visible: false) }.to change(Treenode, :count).by(1)
           end
  
           it "should create a path with the message" do
-            expect { click_button('Send') }.to change(Path, :count).by(1)
+            expect { click_button('Send', visible: false) }.to change(Path, :count).by(1)
           end
 
           describe "then logged as another viewer" do
@@ -316,7 +318,7 @@ describe "Threadhead Pages" do
 
         describe "with invalid informations" do
           it "shouldn't create a message" do
-            expect { click_button('Send') }.not_to change(Message, :count)
+            expect { click_button('Send', visible: false) }.not_to change(Message, :count)
           end
         end
     
@@ -329,15 +331,15 @@ describe "Threadhead Pages" do
 
       describe "as the creator of the message" do
         before do
-          fill_in :message_title, match: :first, with: 'edited title'
-          fill_in :message_text, match: :first, with: 'edited text'
+          fill_in :message_title, match: :first, with: 'edited title', visible: false
+          fill_in :message_text, match: :first, with: 'edited text', visible: false
         end 
        
-        it { should have_selector("input[type=submit][value='Edit']") }
+        it { should have_selector("input[type=submit][value='Edit']", visible: false) }
         
         describe "should be able to edit the message" do
           before do
-            page.find("#submit_edit").click
+            page.find("#submit_edit", visible: false).click
           end
 
           it { should have_content('edited title') }

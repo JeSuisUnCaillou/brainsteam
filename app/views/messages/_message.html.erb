@@ -58,7 +58,7 @@
 
 
        <div class="message_title" id="message_title_<%= message.id.to_s %>">
-         <h4> <%= message.title %> </h4>
+         <h4 class="break_word"> <%= message.title %> </h4>
        </div>
 
     </div>
@@ -79,7 +79,7 @@
     <% if current_user?(message.user) %>
 
        <div class="message_edit" id="message_edit_<%= message.id.to_s %>"
-                                style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
+                                style="display: none">
 
          <%= form_for message, url: message_path(message) do |m| %>
            <%= render partial: 'messages/form', locals: { m: m } %>
@@ -121,7 +121,7 @@
     <% end %>
 
     <div class="message_form" id="message_form_<%= message.id.to_s %>" 
-                              style="display: <%= Rails.env.test? ? 'block' : 'none'%>" >
+                              style="display: none" >
 
       <%= form_for(@new_message, url: messages_path) do |m| %>
         <%= render partial: 'messages/form', locals: { m: m } %>
@@ -141,7 +141,7 @@
 
 <div class="message_answers"
      id="message_answers_<%= message.id %>"
-     style="display: <%= Rails.env.test? ? 'block' : 'none'%>">
+     style="display: none">
 
 
   <div class="table_scroll"
