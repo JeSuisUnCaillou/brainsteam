@@ -1,0 +1,68 @@
+
+<% top_node = table_nodes[row_num -1][node_num] %>
+<% right_nodes = table_nodes[row_num].slice(node_num +1, table_nodes[row_num].length) %>
+
+
+<% top_treelink_visibility = "" %>
+<% left_treelink_visibility = "" %>
+<% right_treelink_visibility = "" %>
+<% center_treelink_visibility = "" %>
+<% bottom_treelink_visibility = "" %>
+
+
+<div class='treelinks'>
+
+	<%# if the node is empty %>                
+	<% if node.nil? %>
+	  <% left_nodes = table_nodes[row_num].slice(0, node_num)%>
+	  <% left_node = left_nodes.reverse.select{ |n| !n.nil? }.first %>
+
+          <%# and if the left node isn't empty and has a brother in the right nodes %>
+	  <% if !left_node.nil? && !right_nodes.select{ |n| !n.nil? && n.parent_node_id == left_node.parent_node_id}.empty? %>
+	    <%# horizontal link %>
+	    <% left_treelink_visibility = "visible" %>
+	    <% center_treelink_visibility = "visible" %>
+	    <% right_treelink_visibility = "visible" %>
+	  <% end %>
+
+	<%# if the parent node is on top %>
+	<% elsif node.parent_node == top_node %>
+
+	  <%# vertical link %>
+	  <% top_treelink_visibility = "visible" %>
+	  <% center_treelink_visibility = "visible" %>
+	  <% bottom_treelink_visibility = "visible" %>
+
+	  <%# if there is a brother in the right nodes %>
+	  <% unless right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty?  %>
+	    <%# right link %>
+	    <% right_treelink_visibility = "visible" %>
+	  <% end %>
+
+	<%# if no brother is in the right nodes %>
+	<% elsif right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty? %>
+
+	  <%# left to bottom link %>
+	  <% left_treelink_visibility = "visible" %>
+	  <% center_treelink_visibility = "visible" %>
+	  <% bottom_treelink_visibility = "visible" %>
+
+	<%# for the orther cases %>
+	<% else %>
+
+	  <%# horizontal and bottom link %>
+	  <% left_treelink_visibility = "visible" %>
+	  <% center_treelink_visibility = "visible" %>
+	  <% right_treelink_visibility = "visible" %>
+	  <% bottom_treelink_visibility = "visible" %>
+
+	<% end %>
+
+	<div class="treelink left_treelink <%=left_treelink_visibility%>"> </div>
+	<div class="treelink center_treelink <%=center_treelink_visibility%>"> </div>
+	<div class="treelink top_treelink <%=top_treelink_visibility%>"> </div>
+	<div class="treelink right_treelink <%=right_treelink_visibility%>"> </div>
+	<div class="treelink bottom_treelink <%=bottom_treelink_visibility%>"> </div>
+
+</div>
+

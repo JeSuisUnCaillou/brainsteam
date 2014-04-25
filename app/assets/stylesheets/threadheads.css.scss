@@ -108,44 +108,52 @@ form.new_threadhead {
   //margin-bottom: 5px;
  }
 
-.treelink {
+// TREE LINKS
+
+.treelinks {
   height: 16px;
   margin-left: 5px;
 
-  .half {
-    height: 9px !important;
-    margin-top: 7px;
-  }
-
-  .no_left {
-    margin-left: 260px !important;
-  }
-
-  .empty_node {
-    height:2px !important;
-    margin-top: 7px;
-  }
-
-  .vertical_treelink {
-    width: 2px;
-    height: 16px;
-    float: left;
+  .treelink {
     background-color: black;
+    float: left;
+    visibility: hidden;
   }
 
-  .left {
-   margin-left: -7px;
-   width: 267px !important; 
+  .visible {
+    visibility: visible;
   }
 
-  .horizontal_treelink { 
+  .top_treelink {
+    width: 2px;
+    height: 7px;
+    margin-left: -2px;
+  }
+
+  .left_treelink {
+    width: 267px;
+    height: 2px;
+    margin-top: 7px;
+    margin-left: -7px;
+  }
+  
+  .right_treelink {
     width: 258px;
     height: 2px;
-    float: left;
-    background-color: black;
     margin-top: 7px;
   }
 
+  .bottom_treelink {
+    width: 2px;
+    height: 7px;
+    margin-left: 260px;
+  }
+  
+  .center_treelink {
+    width: 2px;
+    height: 2px;
+    margin-top: 7px;
+  }
 }
 
 
