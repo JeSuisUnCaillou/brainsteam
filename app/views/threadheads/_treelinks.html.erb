@@ -1,7 +1,7 @@
-
+<% node = table_nodes[row_num][node_num] %>
 <% top_node = table_nodes[row_num -1][node_num] %>
 <% right_nodes = table_nodes[row_num].slice(node_num +1, table_nodes[row_num].length) %>
-
+<% brother_in_right_nodes = node.nil? ? nil : !right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty? %>
 
 <% top_treelink_visibility = "" %>
 <% left_treelink_visibility = "" %>
@@ -34,13 +34,13 @@
 	  <% bottom_treelink_visibility = "visible" %>
 
 	  <%# if there is a brother in the right nodes %>
-	  <% unless right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty?  %>
+	  <% if brother_in_right_nodes %>
 	    <%# right link %>
 	    <% right_treelink_visibility = "visible" %>
 	  <% end %>
 
 	<%# if no brother is in the right nodes %>
-	<% elsif right_nodes.select{ |n| !n.nil? && n.parent_node_id == node.parent_node_id}.empty? %>
+	<% elsif !brother_in_right_nodes %>
 
 	  <%# left to bottom link %>
 	  <% left_treelink_visibility = "visible" %>
