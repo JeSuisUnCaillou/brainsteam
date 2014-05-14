@@ -14,7 +14,7 @@
       <% else %>
         <%= link_to threadhead_overview.title,
                    threadhead_path(threadhead_overview),
-                   class: ("visited_link" unless threadhead_overview.paths_by_user(current_user).empty?) %>
+                   class: ("visited_link" unless threadhead_overview.paths.by_user(current_user).empty?) %>
       <% end %>
 
     </div>
@@ -30,7 +30,7 @@
                            obj_id: threadhead_overview.id,
                            obj_type: Threadhead.to_s } %>
 
-      <% unless threadhead_overview.paths_by_user(current_user).empty? %>
+      <% unless threadhead_overview.paths.by_user(current_user).empty? %>
         <%= render partial: 'messages/new_answers_count',
                    locals: { count: threadhead_overview.new_answers_for_user(current_user)
                                                        .count,

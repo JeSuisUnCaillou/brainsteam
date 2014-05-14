@@ -58,6 +58,7 @@ class Message < ActiveRecord::Base
      end
   end
 
+  # USEFUL TOOL
   #def search_th_id
   #  if treenode.parent_node.obj_type == Threadhead.to_s
   #    return treenode.parent_node.obj.id

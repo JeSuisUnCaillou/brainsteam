@@ -1,4 +1,5 @@
 class Treenode < ActiveRecord::Base
+
   belongs_to :parent_node, class_name: "Treenode", foreign_key: :parent_node_id
   has_many :children_nodes, class_name: "Treenode", foreign_key: :parent_node_id,
                                                     dependent: :destroy 
@@ -12,13 +13,9 @@ class Treenode < ActiveRecord::Base
   validate :obj_exists
   validate :parent_node_exists
 
-  # /!\ not optimised method
+  # /!\ not optimised method, not used yet
   def nodes_count
     1 + children_nodes.map{ |n| n.nodes_count }.sum
-  end
-
-  def paths_count
-    paths.count
   end
 
   def has_threadhead_parent?

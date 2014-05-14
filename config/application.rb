@@ -7,6 +7,8 @@ require "action_mailer/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
+
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
@@ -28,5 +30,6 @@ module SampleApp
     I18n.enforce_available_locales = true
 
     config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    config.autoload_paths += %W(#{config.root}/app/facades)
   end
 end

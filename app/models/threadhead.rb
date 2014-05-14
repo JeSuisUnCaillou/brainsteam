@@ -16,14 +16,18 @@ class Threadhead < ActiveRecord::Base
 
   before_create :set_last_message_date
 
+  #Basic relations
   has_many :thread_tag_relationships, dependent: :destroy
   has_many :thread_tags, through: :thread_tag_relationships
   has_one :treenode, as: :obj
   has_many :paths, dependent: :destroy
   has_many :messages
 
-  # has_one :first_message
-  # has_one :user, -> through: :first_message
+  #First message relations
+  has_one :first_message_node, through: :treenode, source: :children_nodes
+  has_one :first_message, through: :first_message_node, source: :obj, source_type: "Message"
+  has_one :user, through: :first_message
+
 
   def link_tag!(tag_id)
     thread_tag_relationships.create!(thread_tag_id: tag_id)
@@ -33,24 +37,12 @@ class Threadhead < ActiveRecord::Base
     thread_tag_relationships.find_by(thread_tag_id: tag_id).destroy
   end
 
-  def first_message
-    treenode.nil? ? nil : treenode.children_nodes.first.obj
-  end
-
-  def user
-    first_message.try(:user)
-  end
-
   def title 
-    first_message.nil? ? nil : first_message.title
+    first_message.try(:title)
   end
 
   def text
-    first_message.nil? ? nil : first_message.text
-  end
-
-  def paths_by_user(user_id)
-    paths.where(user_id: user_id)
+    first_message.try(:text)
   end
 
   def treenodes_for_user(user_id)

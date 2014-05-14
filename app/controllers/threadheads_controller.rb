@@ -44,7 +44,7 @@ class ThreadheadsController < ApplicationController
     @new_message = Message.new
     @new_path = Path.new
 
-    paths = @threadhead.paths_by_user(current_user)
+    paths = @threadhead.paths.by_user(current_user)
    
     if signed_in? && paths.empty? #si le user n'est jamais venu sur ce thread
       path_1 = Path.create(user: current_user,
@@ -66,6 +66,7 @@ class ThreadheadsController < ApplicationController
 
   def new
     @threadhead = Threadhead.new
+    @threadhead_builder = ThreadheadBuilder.new
     @thread_tags = ThreadTag.all
   end
 
@@ -91,7 +92,7 @@ class ThreadheadsController < ApplicationController
   def destroy
     threadhead = Threadhead.find(params[:id])
     treenode = Treenode.find(threadhead.treenode)
-    #threadhead.destroy est fait par treenode.destroy, qui détruit aussi ses objets et fils
+    #threadhead.destroy est fait par treenode.destroy, qui détruit tous ses objets et fils
     treenode.destroy
     flash[:success] = "Thread destroyed."
     redirect_to threadheads_path

@@ -18,7 +18,6 @@ describe Treenode do
   it { should respond_to(:children_nodes) }
   it { should respond_to(:obj) }
   it { should respond_to(:paths) }
-  it { should respond_to(:paths_count) }
   it { should respond_to(:nodes_count) }
   it { should respond_to(:has_threadhead_parent?) }
   its(:parent_node) { should eq parent_node }
@@ -130,7 +129,9 @@ describe Treenode do
                                               threadhead: threadhead,
                                               treenode: @treenode) }
       its(:paths) { should eq [path_1, path_2] }
-      its(:paths_count) { should eq 2 }
+      it "path count check" do
+        @treenode.paths.count.should eq 2
+      end
 
       describe "destroy the treenode" do
         before { @treenode.destroy }

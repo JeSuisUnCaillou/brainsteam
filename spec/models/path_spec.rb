@@ -159,4 +159,37 @@ describe Path do
 
   end
 
+  
+  describe "scopes" do
+    
+     let!(:user_1) { FactoryGirl.create(:user) }
+     let!(:user_2) { FactoryGirl.create(:user) }
+     let!(:path_1) { Path.create(user: user_1,
+                               threadhead: threadhead,
+                               treenode: threadhead.treenode) }
+     let!(:path_11) { Path.create(user: user_1,
+                               threadhead: threadhead,
+                               treenode: threadhead.first_message.treenode,
+                               active: false) }
+     let!(:path_2) { Path.create(user: user_2,
+                               threadhead: threadhead,
+                               treenode: threadhead.treenode) }
+     let!(:path_21) { Path.create(user: user_2,
+                               threadhead: threadhead,
+                               treenode: threadhead.first_message.treenode) }
+
+     it "default scope should filter desactivated paths" do
+       threadhead.paths.should eq [path_1, path_2, path_21]
+     end
+
+     it "'by_user' should filter by user" do
+       threadhead.paths.by_user(user_1).should eq [path_1]
+       threadhead.paths.by_user(user_2).should eq [path_2, path_21]
+     end
+     
+     it "'desactivated' should return desactivated paths" do
+        threadhead.paths.desactivated.should eq [path_11]
+     end
+  end
+
 end

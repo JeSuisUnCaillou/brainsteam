@@ -4,6 +4,8 @@ class Path < ActiveRecord::Base
   
   scope :desactivated, -> { where(active: false) }
 
+  scope :by_user, -> (usr){ where("user_id = ?", usr) }
+
   belongs_to :user
   belongs_to :threadhead
   belongs_to :treenode

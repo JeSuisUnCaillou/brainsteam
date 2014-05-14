@@ -10,10 +10,11 @@ describe Threadhead do
   it { should respond_to(:thread_tag_relationships) }  
   it { should respond_to(:thread_tags) }
   it { should respond_to(:paths) }
-  it { should respond_to(:paths_by_user) }
+  #it { should respond_to(:paths_by_user) }
   it { should respond_to(:link_tag!) }
   it { should respond_to(:unlink_tag!) }
   it { should respond_to(:treenode) }
+  it { should respond_to(:first_message_node) }
   it { should respond_to(:first_message) }
   it { should respond_to(:user) }
   it { should respond_to(:title) }
@@ -22,6 +23,8 @@ describe Threadhead do
   it { should respond_to(:views_count) }
   it { should respond_to(:messages) }
   it { should respond_to(:treenodes_for_user) }
+
+
 
   it { should be_valid }
   it { should_not be_private } # Default behaviour for v0.0
@@ -60,6 +63,8 @@ describe Threadhead do
     describe "first_message 'association'" do
       let!(:message) { FactoryGirl.create(:message, threadhead: @threadhead) }
       let!(:m_treenode) { FactoryGirl.create(:treenode, obj: message, parent_node: @threadhead.treenode) }
+
+      its(:first_message_node) { should eq m_treenode }
       its(:first_message) { should eq message }
       its(:messages) { should eq [message] }
       its(:answers_count) { should eq 0 }
@@ -103,23 +108,24 @@ describe Threadhead do
     
       its(:paths) { should eq [path_2, path_3, path_1] }
       its(:views_count) { should eq 2 }
+
       
-      describe "paths_by_user method" do
+      describe "paths.by_user method" do
 
         it "with a reader" do
-          @threadhead.paths_by_user(reader.id).should eq [path_1]
+          @threadhead.paths.by_user(reader).should eq [path_1]
         end
 
         it "with the author" do
-          @threadhead.paths_by_user(user.id).should eq [path_2, path_3]
+          @threadhead.paths.by_user(user).should eq [path_2, path_3]
         end
 
         it "with a not-yet-a-reader" do
-          @threadhead.paths_by_user(no_reader.id).should eq []
+          @threadhead.paths.by_user(no_reader).should eq []
         end
 
         it "with a nil user" do
-          @threadhead.paths_by_user(nil).should eq []
+          @threadhead.paths.by_user(nil).should eq []
         end
   
       end
