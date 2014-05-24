@@ -10,6 +10,7 @@ class Treenode < ActiveRecord::Base
 
   validates :obj, presence: true
   validates :obj_id, uniqueness: { scope: :obj_type }
+  #validates_presence_of :obj
   validate :obj_exists
   validate :parent_node_exists
 
@@ -24,13 +25,7 @@ class Treenode < ActiveRecord::Base
 
   private
     def obj_exists
-      if self.obj_type == Threadhead.to_s
-        errors.add(:obj_id, "is invalid") unless Threadhead.exists?(self.obj_id)
-      elsif self.obj_type = Message.to_s
-        errors.add(:obj_id, "is invalid") unless Message.exists?(self.obj_id)  
-      else
-        errors.add(:obj_type, "is invalid")
-      end
+     errors.add(:obj, "is invalid") unless !obj.nil? && obj.persisted?
     end
     
     def parent_node_exists

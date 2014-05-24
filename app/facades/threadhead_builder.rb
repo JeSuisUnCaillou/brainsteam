@@ -4,7 +4,14 @@ class ThreadheadBuilder
   attr_accessor :title, :text, :thread_tag_id, :privat, :user
   attr_reader :threadhead, :thread_node, :message, :message_node
 
-  validate :built_objects_validation
+  ### TOUT A REFAIRE ###
+
+
+  def initialize(attributes={})
+
+
+  end
+
 
   def save
     @threadhead = Threadhead.new(private: @privat)
